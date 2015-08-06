@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Matcher;
@@ -18,7 +16,27 @@ public class Module0 {
 
     public static void main(String[] args) {
         if (args.length == 0) startUserInput();
-        else startFileInput(args[0]);
+        else try {
+            startFileInput(args[0]);
+        } catch (FileNotFoundException e) {
+            System.out.println("No such file exists.");
+        }
+    }
+
+    private static void startFileInput(String fileName) throws FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                line = line.toLowerCase().trim();
+                if (!line.isEmpty()) parseLine(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        printDirectives();
     }
 
     private static void startUserInput() {
@@ -32,47 +50,8 @@ public class Module0 {
                 line = reader.readLine().toLowerCase().trim();
 
                 // Quit on blank enter
-                if (line.equals("")) break;
-
-                Directives userDirective = parseDirective(line);
-                if (userDirective == null) {
-                    System.out.println("Bad input");
-                    continue;
-                }
-                switch (userDirective) {
-                    case PIECE_PLACEMENT:
-                        Matcher matcher1 = piecePlacementPattern.matcher(line);
-                        matcher1.find();
-                        String readable1 = "Place " +
-                                getColor(matcher1.group(2)) + " " +
-                                getPiece(matcher1.group(1)) +
-                                " on " + matcher1.group(3).toUpperCase() + matcher1.group(4);
-                        script.add(readable1);
-                        break;
-                    case SINGLE_PIECE_MOVEMENT:
-                        Matcher matcher2 = singlePieceMovementPattern.matcher(line);
-                        matcher2.find();
-                        String readable2 = "Move the piece on " +
-                                matcher2.group(1).toUpperCase() + matcher2.group(2) +
-                                " to " +
-                                matcher2.group(3).toUpperCase() + matcher2.group(4);
-                        script.add(readable2);
-                        break;
-                    case TWO_PIECE_MOVEMENT:
-                        Matcher matcher3 = twoPieceMovementPattern.matcher(line);
-                        matcher3.find();
-                        String readable3 = "Move the piece on " +
-                                matcher3.group(1).toUpperCase() + matcher3.group(2) +
-                                " to " +
-                                matcher3.group(3).toUpperCase() + matcher3.group(4) +
-                                " and the piece on " +
-                                matcher3.group(5).toUpperCase() + matcher3.group(6) +
-                                " to " +
-                                matcher3.group(7).toUpperCase() + matcher3.group(8);
-                        script.add(readable3);
-                        break;
-                }
-//                printDirectives();
+                if (!line.isEmpty()) parseLine(line);
+                else break;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,6 +64,48 @@ public class Module0 {
         }
 
         printDirectives();
+    }
+
+    private static void parseLine(String line) {
+        Directives userDirective = parseDirective(line);
+        if (userDirective == null) {
+            System.out.println("Bad input at: " + line);
+            return;
+        }
+        switch (userDirective) {
+            case PIECE_PLACEMENT:
+                Matcher matcher1 = piecePlacementPattern.matcher(line);
+                matcher1.find();
+                String readable1 = "Place " +
+                        getColor(matcher1.group(2)) + " " +
+                        getPiece(matcher1.group(1)) +
+                        " on " + matcher1.group(3).toUpperCase() + matcher1.group(4);
+                script.add(readable1);
+                break;
+            case SINGLE_PIECE_MOVEMENT:
+                Matcher matcher2 = singlePieceMovementPattern.matcher(line);
+                matcher2.find();
+                String readable2 = "Move the piece on " +
+                        matcher2.group(1).toUpperCase() + matcher2.group(2) +
+                        " to " +
+                        matcher2.group(3).toUpperCase() + matcher2.group(4);
+                script.add(readable2);
+                break;
+            case TWO_PIECE_MOVEMENT:
+                Matcher matcher3 = twoPieceMovementPattern.matcher(line);
+                matcher3.find();
+                String readable3 = "Move the piece on " +
+                        matcher3.group(1).toUpperCase() + matcher3.group(2) +
+                        " to " +
+                        matcher3.group(3).toUpperCase() + matcher3.group(4) +
+                        " and the piece on " +
+                        matcher3.group(5).toUpperCase() + matcher3.group(6) +
+                        " to " +
+                        matcher3.group(7).toUpperCase() + matcher3.group(8);
+                script.add(readable3);
+                break;
+        }
+
     }
 
     private static Directives parseDirective(String directive) {
@@ -135,10 +156,6 @@ public class Module0 {
             default:
                 return null;
         }
-    }
-
-    private static void startFileInput(String fileName) {
-
     }
 
     private enum Directives {
