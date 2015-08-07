@@ -1,4 +1,4 @@
-package parser;
+package edu.neumont.pro180.chess.parser;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

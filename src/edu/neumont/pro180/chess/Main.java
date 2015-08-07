@@ -1,5 +1,5 @@
-import parser.FileMoveReader;
-import parser.UserMoveReader;
+import edu.neumont.pro180.chess.parser.FileMoveReader;
+import edu.neumont.pro180.chess.parser.UserMoveReader;
 
 import java.io.FileNotFoundException;
 
