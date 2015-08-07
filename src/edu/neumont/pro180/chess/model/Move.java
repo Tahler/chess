@@ -7,19 +7,22 @@ public class Move {
     private final Tile start;
     private final Tile end;
     private final Piece mover;
+    private final boolean isCapture;
     private final Piece captured;
 
-    public Move(Tile start, Tile end) {
+    public Move(Tile start, Tile end, boolean isCapture) {
         this.start = start;
         this.end = end;
         this.mover = start.getPiece();
+        this.isCapture = isCapture;
         this.captured = end.getPiece();
     }
-    public Move(Tile start, Tile end, Piece mover, Piece captured) {
+    public Move(Tile start, Tile end, Piece mover, Piece captured, boolean isCapture) {
         this.start = start;
         this.end = end;
         this.mover = mover;
         this.captured = captured;
+        this.isCapture = isCapture;
     }
 
     public Tile getStart() {
@@ -33,5 +36,9 @@ public class Move {
     }
     public Piece getCaptured() {
         return captured;
+    }
+
+    public boolean isCapture() {
+        return isCapture;
     }
 }

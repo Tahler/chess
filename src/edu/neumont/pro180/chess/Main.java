@@ -1,9 +1,6 @@
 package edu.neumont.pro180.chess;
 
-import edu.neumont.pro180.chess.model.Board;
-import edu.neumont.pro180.chess.model.Color;
-import edu.neumont.pro180.chess.model.Move;
-import edu.neumont.pro180.chess.model.Pawn;
+import edu.neumont.pro180.chess.model.*;
 
 /**
  * Created by Tyler Berry on 8/7/2015.
@@ -23,10 +20,10 @@ public class Main {
         board.print();
 
         board.placePiece(new Pawn(board, Color.DARK), 1, 0);
-        board.placePiece(new Pawn(board, Color.LIGHT), 2, 0);
+        board.placePiece(new Queen(board, Color.LIGHT), 2, 0);
         board.print();
 
-        board.makeMove(1, 0, 4, 0);
+        board.makeMove(4, 0, 4, 0);
         board.print();
     }
 }
