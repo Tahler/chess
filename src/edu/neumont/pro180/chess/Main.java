@@ -16,14 +16,18 @@ public class Main {
 //        }
 
     // Module1
-        Board board = new Board();
+        Board board = Board.getInstance();
         board.print();
+
+        // Parse input to receive piece and location info
 
         board.placePiece(new Pawn(board, Color.DARK), 1, 0);
         board.placePiece(new Queen(board, Color.LIGHT), 2, 0);
         board.print();
 
-        board.makeMove(4, 0, 4, 0, false);
+        // Parse input to receive row and column info
+
+        board.tryMove(4, 0, 4, 0, false);
         board.print();
     }
 }

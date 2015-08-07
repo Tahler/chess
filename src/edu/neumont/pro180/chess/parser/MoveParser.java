@@ -1,5 +1,8 @@
 package edu.neumont.pro180.chess.parser;
 
+import edu.neumont.pro180.chess.model.*;
+
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +19,7 @@ public class MoveParser {
      * @param command The command directive
      * @return The human readable directive
      */
-     public static String parseCommand(String command) {
+     public static String parseCommandForString(String command) {
         Directives userDirective = parseDirective(command);
 
         // If the input is bad,
@@ -28,23 +31,21 @@ public class MoveParser {
             case PIECE_PLACEMENT:
                 Matcher matcher1 = piecePlacementPattern.matcher(command);
                 matcher1.find();
-                String readable1 = "Place " +
-                        getColor(matcher1.group(2)) + " " +
-                        getPiece(matcher1.group(1)) +
+                return "Place " +
+                        getColorString(matcher1.group(2)) + " " +
+                        getPieceString(matcher1.group(1)) +
                         " on " + matcher1.group(3).toUpperCase() + matcher1.group(4);
-                return readable1;
             case SINGLE_PIECE_MOVEMENT:
                 Matcher matcher2 = singlePieceMovementPattern.matcher(command);
                 matcher2.find();
-                String readable2 = "Move the piece on " +
+                return "Move the piece on " +
                         matcher2.group(1).toUpperCase() + matcher2.group(2) +
                         " to " +
                         matcher2.group(3).toUpperCase() + matcher2.group(4);
-                return readable2;
             case TWO_PIECE_MOVEMENT:
                 Matcher matcher3 = twoPieceMovementPattern.matcher(command);
                 matcher3.find();
-                String readable3 = "Move the piece on " +
+                return "Move the piece on " +
                         matcher3.group(1).toUpperCase() + matcher3.group(2) +
                         " to " +
                         matcher3.group(3).toUpperCase() + matcher3.group(4) +
@@ -52,9 +53,54 @@ public class MoveParser {
                         matcher3.group(5).toUpperCase() + matcher3.group(6) +
                         " to " +
                         matcher3.group(7).toUpperCase() + matcher3.group(8);
-                return readable3;
             default:
-                return "Something went wrong in MoveParser.parseCommand()";
+                return "Something went wrong in MoveParser.parseCommandForString()";
+        }
+    }
+
+    public static void parseCommand(String command) throws ParseException {
+        Directives userDirective = parseDirective(command);
+
+        // If the input is bad,
+        if (userDirective == null) {
+            throw new ParseException("Bad input at: " + command, 0);
+        }
+
+        Matcher matcher = null;
+        switch (userDirective) {
+            case PIECE_PLACEMENT:
+                matcher = piecePlacementPattern.matcher(command);
+                matcher.find();
+                Board.getInstance().placePiece(
+                        getPiece(matcher.group(1), getColor(matcher.group(2))),
+                        getRow(matcher.group(4)), getColumn(matcher.group(3))
+                );
+                break;
+            case SINGLE_PIECE_MOVEMENT:
+                matcher = singlePieceMovementPattern.matcher(command);
+                matcher.find();
+
+                Board.getInstance().tryMove(
+                        getRow(matcher.group(2)), getColumn(matcher.group(1)),
+                        getRow(matcher.group(4)), getColumn(matcher.group(3)),
+                        getCapture(matcher.group(5))
+                );
+                break;
+            case TWO_PIECE_MOVEMENT:
+                matcher = twoPieceMovementPattern.matcher(command);
+                matcher.find();
+
+                Board.getInstance().tryMove(
+                        getRow(matcher.group(2)), getColumn(matcher.group(1)),
+                        getRow(matcher.group(4)), getColumn(matcher.group(3)),
+                        false
+                );
+                Board.getInstance().tryMove(
+                        getRow(matcher.group(6)), getColumn(matcher.group(5)),
+                        getRow(matcher.group(8)), getColumn(matcher.group(7)),
+                        false
+                );
+                break;
         }
     }
 
@@ -71,7 +117,25 @@ public class MoveParser {
         return null;
     }
 
-    private static String getColor(String color) {
+    private static Integer getRow(String row) {
+        return (Board.BOARD_WIDTH - Integer.valueOf(row.toLowerCase()));
+    }
+
+    private static Integer getColumn(String column) {
+        column = column.toLowerCase();
+
+        char c = column.charAt(0);
+        int temp = (int) c;
+        if (temp >= 97 && temp <= 122) return Integer.valueOf(temp - 97); // 97 is the value of ascii 'a'
+        else return null; // Shouldn't happen
+    }
+
+    private static boolean getCapture(String asterisk) {
+        if (asterisk == null) return false;
+        else return true;
+    }
+
+    private static String getColorString(String color) {
         switch (color) {
             case "l":
                 return "LIGHT";
@@ -82,7 +146,7 @@ public class MoveParser {
         }
     }
 
-    private static String getPiece(String piece) {
+    private static String getPieceString(String piece) {
         switch (piece) {
             case "k":
                 return "KING";
@@ -96,6 +160,36 @@ public class MoveParser {
                 return "ROOK";
             case "p":
                 return "PAWN";
+            default:
+                return null;
+        }
+    }
+
+    private static Color getColor(String color) {
+        switch (color) {
+            case "l":
+                return Color.LIGHT;
+            case "d":
+                return Color.DARK;
+            default:
+                return null;
+        }
+    }
+
+    private static Piece getPiece(String piece, Color color) {
+        switch (piece) {
+            case "k":
+                return new King(Board.getInstance(), color);
+            case "q":
+                return new Queen(Board.getInstance(), color);
+            case "b":
+                return new Bishop(Board.getInstance(), color);
+            case "n":
+                return new Knight(Board.getInstance(), color);
+            case "r":
+                return new Rook(Board.getInstance(), color);
+            case "p":
+                return new Pawn(Board.getInstance(), color);
             default:
                 return null;
         }

@@ -7,13 +7,20 @@ import java.util.List;
  * Created by Tyler Berry on 8/7/2015.
  */
 public class Board {
+    // Public Static Final
     public static final Integer BOARD_WIDTH = 8;
     public static final Integer BOARD_HEIGHT = 8;
 
+    // Private Member Variables
     private final Tile[][] tiles;
     private List<Move> moves = new ArrayList<>();
 
-    public Board() {
+    // Singleton setup
+    private static Board ourInstance = new Board();
+    public static Board getInstance() {
+        return ourInstance;
+    }
+    private Board() {
         // Initialize tiles
         tiles = new Tile[8][8];
         for (int i = 0; i < tiles.length; i++) { // going down the rows
@@ -29,6 +36,7 @@ public class Board {
         // TODO: setup board
     }
 
+
     public void placePiece(Piece piece, Tile location) {
         location.setPiece(piece);
     }
@@ -36,7 +44,11 @@ public class Board {
         placePiece(piece, tiles[row][col]);
     }
 
-    public void makeMove(Move move) {
+    /**
+     * Executes a move on the board if it is valid
+     * @param move The move attempting to be made
+     */
+    public void tryMove(Move move) {
         if (move.isValid()) {
             move.getStart().setPiece(null);
             move.getEnd().setPiece(move.getMover());
@@ -44,8 +56,8 @@ public class Board {
         }
     }
 
-    public void makeMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) {
-        this.makeMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture));
+    public void tryMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) {
+        this.tryMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture));
     }
 
     public Tile[][] getTiles() {
