@@ -1,5 +1,6 @@
 package edu.neumont.pro180.chess.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 public class Board {
     private final Tile[][] tiles;
-    private List<Move> moves;
+    private List<Move> moves = new ArrayList<>();
 
     public Board() {
         // Initialize tiles
@@ -30,6 +31,7 @@ public class Board {
 
     public void makeMove(Move move) {
         // move piece from start to end
+        move.getStart().setPiece(null);
         move.getEnd().setPiece(move.getMover());
         moves.add(move);
     }

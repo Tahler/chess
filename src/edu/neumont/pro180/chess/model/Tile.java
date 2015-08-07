@@ -1,5 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
+import com.sun.istack.internal.Nullable;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
@@ -16,7 +18,7 @@ public class Tile {
     public Piece getPiece() {
         return piece;
     }
-    public void setPiece(Piece piece) {
+    public void setPiece(@Nullable Piece piece) {
         this.piece = piece;
     }
 

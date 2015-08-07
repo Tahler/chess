@@ -26,7 +26,7 @@ public class Main {
         board.placePiece(new Pawn(board, Color.LIGHT), 2, 0);
         board.print();
 
-        board.makeMove(1, 0, 2, 0);
+        board.makeMove(1, 0, 4, 0);
         board.print();
     }
 }
