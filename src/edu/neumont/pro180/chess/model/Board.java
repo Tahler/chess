@@ -20,15 +20,21 @@ public class Board {
         }
     }
 
+
+    public void placePiece(Piece piece, Tile location) {
+        location.setPiece(piece);
+    }
+    public void placePiece(Piece piece, int row, int col) {
+        placePiece(piece, tiles[row][col]);
+    }
+
     public void makeMove(Move move) {
         // move piece from start to end
-        move.getMover().setLocation(move.getEnd());
+        move.getEnd().setPiece(move.getMover());
         moves.add(move);
     }
     public void makeMove(int startRow, int startCol, int endRow, int endCol) {
-        Move move = new Move(tiles[startRow][startCol], tiles[endRow][endCol]);
-        move.getMover().setLocation(tiles[endRow][endCol]);
-        moves.add(move);
+        this.makeMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol]));
     }
 
     public Tile[][] getTiles() {

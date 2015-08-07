@@ -2,6 +2,7 @@ package edu.neumont.pro180.chess;
 
 import edu.neumont.pro180.chess.model.Board;
 import edu.neumont.pro180.chess.model.Color;
+import edu.neumont.pro180.chess.model.Move;
 import edu.neumont.pro180.chess.model.Pawn;
 
 /**
@@ -21,10 +22,11 @@ public class Main {
         Board board = new Board();
         board.print();
 
-//        board.getTiles()[0][0].setPiece(new Pawn());
-        new Pawn(board, Color.DARK, board.getTiles()[0][0]); // places a piece
+        board.placePiece(new Pawn(board, Color.DARK), 1, 0);
+        board.placePiece(new Pawn(board, Color.LIGHT), 2, 0);
+        board.print();
 
-//        board.makeMove(0, 0, 0, 0, new Pawn(board, Color.DARK, board.getTiles()[0][0]), null);
+        board.makeMove(1, 0, 2, 0);
         board.print();
     }
 }
