@@ -37,7 +37,7 @@ public class Board {
     }
 
     public void makeMove(Move move) {
-        if (isValidMove(move)) {
+        if (move.isValid()) {
             move.getStart().setPiece(null);
             move.getEnd().setPiece(move.getMover());
             moves.add(move);
@@ -46,19 +46,6 @@ public class Board {
 
     public void makeMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) {
         this.makeMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture));
-    }
-
-    public boolean isValidMove(Move move) {
-        // Move from a location where there is no piece
-        if (move.getStart().getPiece() == null) return false;
-        // Move to a location where there is already an occupying piece (unless it is a capture)
-        if (move.getEnd().getPiece() != null && !move.isCapture()) return false;
-        // Move to capture a location where there is no occupying piece
-        if (move.isCapture() && move.getEnd().getPiece() == null) return false;
-        // Move to capture a location where there is no occupying piece
-        // COVERED IN TILE CONSTRUCTOR
-
-        return true;
     }
 
     public Tile[][] getTiles() {

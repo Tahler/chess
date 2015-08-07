@@ -25,6 +25,26 @@ public class Move {
         this.isCapture = isCapture;
     }
 
+    /**
+     * Returns true if move is valid.
+     * Will return false if:
+     * 1. Move from a location where there is no piece
+     * 2. Move to a location where there is already an occupying piece (unless it is a capture)
+     * 3. Move to capture a location where there is no occupying piece
+     * @return True if the move is valid, false if invalid
+     */
+    public boolean isValid() {
+        // Move from a location where there is no piece
+        if (getStart().getPiece() == null) return false;
+        // Move to a location where there is already an occupying piece (unless it is a capture)
+        if (getEnd().getPiece() != null && !isCapture()) return false;
+        // Move to capture a location where there is no occupying piece
+        if (isCapture() && getEnd().getPiece() == null) return false;
+        // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
+
+        return true;
+    }
+
     public Tile getStart() {
         return start;
     }

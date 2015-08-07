@@ -23,7 +23,7 @@ public class Main {
         board.placePiece(new Queen(board, Color.LIGHT), 2, 0);
         board.print();
 
-        board.makeMove(4, 0, 4, 0);
+        board.makeMove(4, 0, 4, 0, false);
         board.print();
     }
 }
