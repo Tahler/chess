@@ -1,5 +1,6 @@
 package edu.neumont.pro180.chess.parser;
 
+import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.*;
 
 import java.text.ParseException;
@@ -58,7 +59,7 @@ public class MoveParser {
         }
     }
 
-    public static void parseCommand(String command) throws ParseException {
+    public static void parseCommand(String command) throws ParseException, IllegalMoveException {
         Directives userDirective = parseDirective(command);
 
         // If the input is bad,
@@ -118,15 +119,13 @@ public class MoveParser {
     }
 
     private static Integer getRow(String row) {
-        return (Board.BOARD_WIDTH - Integer.valueOf(row.toLowerCase()));
+        return (Board.BOARD_WIDTH - Integer.valueOf(row));
     }
 
     private static Integer getColumn(String column) {
-        column = column.toLowerCase();
-
         char c = column.charAt(0);
         int temp = (int) c;
-        if (temp >= 97 && temp <= 122) return Integer.valueOf(temp - 97); // 97 is the value of ascii 'a'
+        if (temp >= 97 && temp <= 122) return (temp - 97); // 97 is the value of ascii 'a'
         else return null; // Shouldn't happen
     }
 

@@ -17,6 +17,7 @@ public abstract class Piece {
 
     /**
      * Shadows the Object.toString(), but serves the same purpose.
+     * This forces the pieces to override toString();
      * @return A string representation of this piece, not acknowledging color.
      */
     public abstract String toString();
