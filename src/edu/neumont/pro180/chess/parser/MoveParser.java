@@ -22,7 +22,6 @@ public class MoveParser {
      *                              column = [a-h]
      *                              row = [1-8]
      *                              is-capture = *
-     *
      *                Two piece:
      *                              This case-insensitive directive is in the format [column][row][column][row][column][row][column][row]:
      *                              column = [a-h]
@@ -93,7 +92,7 @@ public class MoveParser {
         if (asterisk == null) return false;
         else return true;
     }
-    
+
     private enum Directive {
         SINGLE_PIECE_MOVEMENT,
         TWO_PIECE_MOVEMENT
