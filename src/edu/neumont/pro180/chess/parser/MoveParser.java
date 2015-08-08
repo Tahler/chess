@@ -11,72 +11,35 @@ import java.util.regex.Pattern;
  * Created by Tyler Berry on 8/7/2015.
  */
 public class MoveParser {
-    private static Pattern piecePlacementPattern = Pattern.compile("([kqbnrp])([ld])([a-h])([1-8])");
     private static Pattern singlePieceMovementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])(\\*)?");
     private static Pattern twoPieceMovementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])([a-h])([1-8])([a-h])([1-8])");
 
     /**
-     * Takes in a command like 'kld8' and returns a readable String like 'Place LIGHT KING on D8'
-     * @param command The command directive
-     * @return The human readable directive
+     * Parses a command like 'e4d4' and sends a new Move to the Board, if successfully parsed
+     * @param command The short command, either a single piece movement or a two piece movement.
+     *                Single piece:
+     *                              This case-insensitive directive is in the format [column][row][column][row][is-capture]:
+     *                              column = [a-h]
+     *                              row = [1-8]
+     *                              is-capture = *
+     *
+     *                Two piece:
+     *                              This case-insensitive directive is in the format [column][row][column][row][column][row][column][row]:
+     *                              column = [a-h]
+     *                              row = [1-8]
+     * @throws ParseException Thrown if the command is of the incorrect syntax or out of bounds.
+     * @throws IllegalMoveException Thrown if the move is successfully parsed, but is not valid.
      */
-     public static String parseCommandForString(String command) {
-        Directives userDirective = parseDirective(command);
-
-        // If the input is bad,
-        if (userDirective == null) {
-            return "Bad input at: " + command;
-        }
-
-        switch (userDirective) {
-            case PIECE_PLACEMENT:
-                Matcher matcher1 = piecePlacementPattern.matcher(command);
-                matcher1.find();
-                return "Place " +
-                        getColorString(matcher1.group(2)) + " " +
-                        getPieceString(matcher1.group(1)) +
-                        " on " + matcher1.group(3).toUpperCase() + matcher1.group(4);
-            case SINGLE_PIECE_MOVEMENT:
-                Matcher matcher2 = singlePieceMovementPattern.matcher(command);
-                matcher2.find();
-                return "Move the piece on " +
-                        matcher2.group(1).toUpperCase() + matcher2.group(2) +
-                        " to " +
-                        matcher2.group(3).toUpperCase() + matcher2.group(4);
-            case TWO_PIECE_MOVEMENT:
-                Matcher matcher3 = twoPieceMovementPattern.matcher(command);
-                matcher3.find();
-                return "Move the piece on " +
-                        matcher3.group(1).toUpperCase() + matcher3.group(2) +
-                        " to " +
-                        matcher3.group(3).toUpperCase() + matcher3.group(4) +
-                        " and the piece on " +
-                        matcher3.group(5).toUpperCase() + matcher3.group(6) +
-                        " to " +
-                        matcher3.group(7).toUpperCase() + matcher3.group(8);
-            default:
-                return "Something went wrong in MoveParser.parseCommandForString()";
-        }
-    }
-
     public static void parseCommand(String command) throws ParseException, IllegalMoveException {
-        Directives userDirective = parseDirective(command);
+        Directive userDirective = parseDirective(command);
 
-        // If the input is bad,
+        // If the input is bad throw a ParseException
         if (userDirective == null) {
             throw new ParseException("Bad input at: " + command + ". (Syntax error)", 0);
         }
 
         Matcher matcher = null;
         switch (userDirective) {
-            case PIECE_PLACEMENT:
-                matcher = piecePlacementPattern.matcher(command);
-                matcher.find();
-                Board.getInstance().placePiece(
-                        getPiece(matcher.group(1), getColor(matcher.group(2))),
-                        getRow(matcher.group(4)), getColumn(matcher.group(3))
-                );
-                break;
             case SINGLE_PIECE_MOVEMENT:
                 matcher = singlePieceMovementPattern.matcher(command);
                 matcher.find();
@@ -84,7 +47,7 @@ public class MoveParser {
                 Board.getInstance().tryMove(
                         getRow(matcher.group(2)), getColumn(matcher.group(1)),
                         getRow(matcher.group(4)), getColumn(matcher.group(3)),
-                        getCapture(matcher.group(5))
+                        getIsCapture(matcher.group(5))
                 );
                 break;
             case TWO_PIECE_MOVEMENT:
@@ -105,15 +68,12 @@ public class MoveParser {
         }
     }
 
-    private static Directives parseDirective(String directive) {
-        if (piecePlacementPattern.matcher(directive).matches()) {
-            return Directives.PIECE_PLACEMENT;
-        }
+    private static Directive parseDirective(String directive) {
         if (singlePieceMovementPattern.matcher(directive).matches()) {
-            return Directives.SINGLE_PIECE_MOVEMENT;
+            return Directive.SINGLE_PIECE_MOVEMENT;
         }
         if (twoPieceMovementPattern.matcher(directive).matches()) {
-            return Directives.TWO_PIECE_MOVEMENT;
+            return Directive.TWO_PIECE_MOVEMENT;
         }
         return null;
     }
@@ -129,73 +89,12 @@ public class MoveParser {
         else return null; // Shouldn't happen
     }
 
-    private static boolean getCapture(String asterisk) {
+    private static boolean getIsCapture(String asterisk) {
         if (asterisk == null) return false;
         else return true;
     }
-
-    private static String getColorString(String color) {
-        switch (color) {
-            case "l":
-                return "LIGHT";
-            case "d":
-                return "DARK";
-            default:
-                return null;
-        }
-    }
-
-    private static String getPieceString(String piece) {
-        switch (piece) {
-            case "k":
-                return "KING";
-            case "q":
-                return "QUEEN";
-            case "b":
-                return "BISHOP";
-            case "n":
-                return "KNIGHT";
-            case "r":
-                return "ROOK";
-            case "p":
-                return "PAWN";
-            default:
-                return null;
-        }
-    }
-
-    private static Color getColor(String color) {
-        switch (color) {
-            case "l":
-                return Color.LIGHT;
-            case "d":
-                return Color.DARK;
-            default:
-                return null;
-        }
-    }
-
-    private static Piece getPiece(String piece, Color color) {
-        switch (piece) {
-            case "k":
-                return new King(Board.getInstance(), color);
-            case "q":
-                return new Queen(Board.getInstance(), color);
-            case "b":
-                return new Bishop(Board.getInstance(), color);
-            case "n":
-                return new Knight(Board.getInstance(), color);
-            case "r":
-                return new Rook(Board.getInstance(), color);
-            case "p":
-                return new Pawn(Board.getInstance(), color);
-            default:
-                return null;
-        }
-    }
-
-    private enum Directives {
-        PIECE_PLACEMENT,
+    
+    private enum Directive {
         SINGLE_PIECE_MOVEMENT,
         TWO_PIECE_MOVEMENT
     }
