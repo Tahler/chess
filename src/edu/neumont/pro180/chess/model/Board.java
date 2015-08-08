@@ -62,7 +62,7 @@ public class Board {
             move.getStart().setPiece(null);
             move.getEnd().setPiece(move.getMover());
             moves.add(move);
-        } else throw new IllegalMoveException("That move is currently invalid");
+        } else throw new IllegalMoveException("That move is invalid");
     }
     public void tryMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) throws IllegalMoveException {
         this.tryMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture));

@@ -61,4 +61,9 @@ public class Move {
     public boolean isCapture() {
         return isCapture;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

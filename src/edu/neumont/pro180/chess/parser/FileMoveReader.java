@@ -29,14 +29,14 @@ public class FileMoveReader extends MoveReader {
                     try {
                         MoveParser.parseCommand(line);
                     } catch (ParseException e) {
-                        System.out.println("Bad input at: " + line);
+                        System.out.println(e.getMessage());
                     } catch (IllegalMoveException e) {
                         System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
                     }
 
                     // TODO: parses twice
                     // TODO: create toString in Move that is called after each line?
-                    getScript().add(MoveParser.parseCommandForString(line));
+//                    getScript().add(MoveParser.parseCommandForString(line));
                 }
             }
         } catch (IOException e) {
