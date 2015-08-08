@@ -76,7 +76,7 @@ public class Board {
      * Prints the boards toString() to the console.
      */
     public void print() {
-        System.out.println(toString());
+        System.out.println(this.toString());
     }
 
     /**

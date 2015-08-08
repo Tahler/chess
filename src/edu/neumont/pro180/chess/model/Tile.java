@@ -23,8 +23,13 @@ public class Tile {
         this.piece = piece;
     }
 
-    public String toString() {
-        if (piece == null) return "-";
-        else return piece.toStringTeam();
+    public Character toChar() {
+        if (piece == null) return '-';
+        else return (piece.toCharTeam());
     }
+
+    public String toString() {
+        return String.valueOf((char) (col + 97)).toUpperCase() + row;
+    }
+
 }

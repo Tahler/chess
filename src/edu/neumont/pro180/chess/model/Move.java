@@ -64,6 +64,11 @@ public class Move {
 
     @Override
     public String toString() {
-        return super.toString();
+        if (isValid()) {
+            return "Moving " + mover.toString() + " from " + start.toString() + " to " + end.toString();
+        }
+        else {
+            return "The " + mover.toString() + " cannot move in that direction.";
+        }
     }
 }

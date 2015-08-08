@@ -10,6 +10,10 @@ public class Pawn extends Piece {
 
     @Override
     public String toString() {
-        return "P";
+        return "PAWN";
+    }
+
+    public Character toChar() {
+        return 'P';
     }
 }

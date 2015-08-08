@@ -10,6 +10,10 @@ public class Knight extends Piece {
 
     @Override
     public String toString() {
-        return "N";
+        return "KNIGHT";
+    }
+
+    public Character toChar() {
+        return 'N';
     }
 }
