@@ -1,4 +1,4 @@
-package edu.neumont.pro180.chess.parser;
+package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 
@@ -16,7 +16,7 @@ public class FileMoveReader extends MoveReader {
      * Reads all commands in a file and prints out the end result
      * @param fileName The text file containing the commands
      */
-    public static void readFile(String fileName) throws FileNotFoundException {
+    public void readFile(String fileName) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         // TODO: abstract this somewhere else; UserMoveReader runs VERY similar code
@@ -25,7 +25,6 @@ public class FileMoveReader extends MoveReader {
             while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().trim();
                 if (!line.isEmpty()) {
-                    // TODO: parses and interprets twice
                     try {
                         MoveParser.parseCommand(line);
                     } catch (ParseException e) {
@@ -33,10 +32,6 @@ public class FileMoveReader extends MoveReader {
                     } catch (IllegalMoveException e) {
                         System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
                     }
-
-                    // TODO: parses twice
-                    // TODO: create toString in Move that is called after each line?
-//                    getScript().add(MoveParser.parseCommandForString(line));
                 }
             }
         } catch (IOException e) {
@@ -48,7 +43,5 @@ public class FileMoveReader extends MoveReader {
                 e.printStackTrace();
             }
         }
-
-        printDirectives();
     }
 }

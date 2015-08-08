@@ -1,4 +1,4 @@
-package edu.neumont.pro180.chess.parser;
+package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.*;
@@ -53,6 +53,7 @@ public class MoveParser {
                 matcher = twoPieceMovementPattern.matcher(command);
                 matcher.find();
 
+                // TODO: this counts as two moves. This will need to be accounted for soon
                 Board.getInstance().tryMove(
                         getRow(matcher.group(2)), getColumn(matcher.group(1)),
                         getRow(matcher.group(4)), getColumn(matcher.group(3)),
