@@ -66,6 +66,11 @@ public class Move {
 
     @Override
     public String toString() {
-        return "Moving the " + getMover() + " from " + getStart() + " to " + getEnd();
+        try {
+            isValid();
+            return "Moving " + mover.toString() + " from " + start.toString() + " to " + end.toString();
+        } catch (IllegalMoveException e) {
+            return "The " + mover.toString() + " cannot move in that direction.";
+        }
     }
 }

@@ -10,6 +10,10 @@ public class Rook extends Piece {
 
     @Override
     public String toString() {
-        return "R";
+        return "ROOK";
+    }
+
+    public Character toChar() {
+        return 'R';
     }
 }

@@ -10,6 +10,10 @@ public class King extends Piece {
 
     @Override
     public String toString() {
-        return "K";
+        return "KING";
+    }
+
+    public Character toChar() {
+        return 'K';
     }
 }

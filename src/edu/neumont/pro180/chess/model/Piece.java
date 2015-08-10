@@ -23,18 +23,35 @@ public abstract class Piece {
     public abstract String toString();
 
     /**
+     * Similar to toString(), but a single character
+     * @return The character representation of this piece, not acknowledging color.
+     */
+    public abstract Character toChar();
+
+    public String toStringTeam() {
+        switch (color) {
+            case LIGHT:
+                return "LIGHT " + toString();
+            case DARK:
+                return "DARK " + toString();
+            default:
+                return "COLORLESS"; // Should never be returned, piece's color cannot be null
+        }
+    }
+
+    /**
      * A light piece will be lowercase.
      * A dark piece will be uppercase.
      * @return The string representation of this piece, acknowledging color.
      */
-    public String toStringTeam() {
+    public Character toCharTeam() {
         switch (color) {
             case LIGHT:
-                return toString().toLowerCase();
+                return Character.toLowerCase(toChar());
             case DARK:
-                return toString().toUpperCase();
+                return Character.toUpperCase(toChar());
             default:
-                return "This piece has no color?";
+                return '-'; // Should never be returned, piece's color cannot be null
         }
     }
 }

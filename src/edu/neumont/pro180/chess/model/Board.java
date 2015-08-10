@@ -78,7 +78,7 @@ public class Board {
      * Prints the boards toString() to the console.
      */
     public void print() {
-        System.out.println(toString());
+        System.out.println(this.toString());
     }
 
     /**
@@ -115,7 +115,7 @@ public class Board {
         for (int i = 0; i < tiles.length; i++) {
             board += (8 - i) + " "; // "8 "
             for (int j = 0; j < tiles[0].length; j++) {
-                board += "| " + tiles[i][j].toString() + " ";
+                board += "| " + tiles[i][j].toChar() + " ";
             }
             board += "|" + "\n";
             board += "  ---------------------------------" + "\n";

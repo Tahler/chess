@@ -1,4 +1,4 @@
-package edu.neumont.pro180.chess.parser;
+package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.Board;
@@ -26,7 +26,7 @@ public class FileMoveReader extends MoveReader {
      * Reads all commands in a file and prints out the end result
      * @param fileName The text file containing the commands
      */
-    public static void readFile(String fileName, Flag flag) throws FileNotFoundException {
+    public void readFile(String fileName, Flag flag) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         // TODO: abstract this somewhere else; UserMoveReader runs VERY similar code
@@ -61,7 +61,5 @@ public class FileMoveReader extends MoveReader {
                 e.printStackTrace();
             }
         }
-
-        printDirectives();
     }
 }
