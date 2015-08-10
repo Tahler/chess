@@ -35,7 +35,7 @@ public class Board {
             }
         }
 
-        // TODO: setup board
+        // TODO: module3: setup board
     }
 
     /**
@@ -64,8 +64,10 @@ public class Board {
             moves.add(move);
         } else throw new IllegalMoveException("That move is invalid");
     }
-    public void tryMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) throws IllegalMoveException {
-        this.tryMove(new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture));
+    public Move tryMove(int startRow, int startCol, int endRow, int endCol, boolean isCapture) throws IllegalMoveException {
+        Move result = new Move(tiles[startRow][startCol], tiles[endRow][endCol], isCapture);
+        this.tryMove(result);
+        return result;
     }
 
     public Tile[][] getTiles() {

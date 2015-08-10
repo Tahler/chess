@@ -16,51 +16,14 @@ public class MoveParser {
     private static Pattern twoPieceMovementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])([a-h])([1-8])([a-h])([1-8])");
 
     /**
-     * Takes in a command like 'kld8' and returns a readable String like 'Place LIGHT KING on D8'
-     * @param command The command directive
-     * @return The human readable directive
+     * Parses and passes directives onto the board.
+     * @param command The directive to be parsed. Example: kld8
+     * @return The resulting Move's toString()
+     * @throws ParseException Thrown if the directive cannot be parsed.
+     * @throws IllegalMoveException Thrown if the move is invalid.
      */
-     public static String parseCommandForString(String command) {
-        Directives userDirective = parseDirective(command);
-
-        // If the input is bad,
-        if (userDirective == null) {
-            return "Bad input at: " + command;
-        }
-
-        switch (userDirective) {
-            case PIECE_PLACEMENT:
-                Matcher matcher1 = piecePlacementPattern.matcher(command);
-                matcher1.find();
-                return "Place " +
-                        getColorString(matcher1.group(2)) + " " +
-                        getPieceString(matcher1.group(1)) +
-                        " on " + matcher1.group(3).toUpperCase() + matcher1.group(4);
-            case SINGLE_PIECE_MOVEMENT:
-                Matcher matcher2 = singlePieceMovementPattern.matcher(command);
-                matcher2.find();
-                return "Move the piece on " +
-                        matcher2.group(1).toUpperCase() + matcher2.group(2) +
-                        " to " +
-                        matcher2.group(3).toUpperCase() + matcher2.group(4);
-            case TWO_PIECE_MOVEMENT:
-                Matcher matcher3 = twoPieceMovementPattern.matcher(command);
-                matcher3.find();
-                return "Move the piece on " +
-                        matcher3.group(1).toUpperCase() + matcher3.group(2) +
-                        " to " +
-                        matcher3.group(3).toUpperCase() + matcher3.group(4) +
-                        " and the piece on " +
-                        matcher3.group(5).toUpperCase() + matcher3.group(6) +
-                        " to " +
-                        matcher3.group(7).toUpperCase() + matcher3.group(8);
-            default:
-                return "Something went wrong in MoveParser.parseCommandForString()";
-        }
-    }
-
-    public static void parseCommand(String command) throws ParseException, IllegalMoveException {
-        Directives userDirective = parseDirective(command);
+    public static String parseCommand(String command) throws ParseException, IllegalMoveException {
+        Directive userDirective = parseDirective(command);
 
         // If the input is bad,
         if (userDirective == null) {
@@ -81,39 +44,40 @@ public class MoveParser {
                 matcher = singlePieceMovementPattern.matcher(command);
                 matcher.find();
 
-                Board.getInstance().tryMove(
+                return Board.getInstance().tryMove(
                         getRow(matcher.group(2)), getColumn(matcher.group(1)),
                         getRow(matcher.group(4)), getColumn(matcher.group(3)),
                         getCapture(matcher.group(5))
-                );
-                break;
+                ).toString();
             case TWO_PIECE_MOVEMENT:
                 matcher = twoPieceMovementPattern.matcher(command);
                 matcher.find();
 
-                Board.getInstance().tryMove(
+                String result = "";
+                result += Board.getInstance().tryMove(
                         getRow(matcher.group(2)), getColumn(matcher.group(1)),
                         getRow(matcher.group(4)), getColumn(matcher.group(3)),
                         false
-                );
-                Board.getInstance().tryMove(
+                ).toString();
+                result += Board.getInstance().tryMove(
                         getRow(matcher.group(6)), getColumn(matcher.group(5)),
                         getRow(matcher.group(8)), getColumn(matcher.group(7)),
                         false
-                );
-                break;
+                ).toString();
+                return result;
         }
+        return null;
     }
 
-    private static Directives parseDirective(String directive) {
+    private static Directive parseDirective(String directive) {
         if (piecePlacementPattern.matcher(directive).matches()) {
-            return Directives.PIECE_PLACEMENT;
+            return Directive.PIECE_PLACEMENT;
         }
         if (singlePieceMovementPattern.matcher(directive).matches()) {
-            return Directives.SINGLE_PIECE_MOVEMENT;
+            return Directive.SINGLE_PIECE_MOVEMENT;
         }
         if (twoPieceMovementPattern.matcher(directive).matches()) {
-            return Directives.TWO_PIECE_MOVEMENT;
+            return Directive.TWO_PIECE_MOVEMENT;
         }
         return null;
     }
@@ -132,36 +96,6 @@ public class MoveParser {
     private static boolean getCapture(String asterisk) {
         if (asterisk == null) return false;
         else return true;
-    }
-
-    private static String getColorString(String color) {
-        switch (color) {
-            case "l":
-                return "LIGHT";
-            case "d":
-                return "DARK";
-            default:
-                return null;
-        }
-    }
-
-    private static String getPieceString(String piece) {
-        switch (piece) {
-            case "k":
-                return "KING";
-            case "q":
-                return "QUEEN";
-            case "b":
-                return "BISHOP";
-            case "n":
-                return "KNIGHT";
-            case "r":
-                return "ROOK";
-            case "p":
-                return "PAWN";
-            default:
-                return null;
-        }
     }
 
     private static Color getColor(String color) {
@@ -194,7 +128,7 @@ public class MoveParser {
         }
     }
 
-    private enum Directives {
+    private enum Directive {
         PIECE_PLACEMENT,
         SINGLE_PIECE_MOVEMENT,
         TWO_PIECE_MOVEMENT

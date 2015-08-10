@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 
+import static edu.neumont.pro180.chess.parser.MoveParser.parseCommand;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
@@ -29,17 +31,12 @@ public class UserMoveReader extends MoveReader {
                 // Quit on blank enter
                 if (!line.isEmpty()) {
                     try {
-                        MoveParser.parseCommand(line);
+                        parseCommand(line);
                     } catch (ParseException e) {
                         System.out.println("Bad input at: " + line);
                     } catch (IllegalMoveException e) {
                         System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
                     }
-
-                    // TODO: parses twice
-                    // TODO: create toString in Move that is called after each line?
-                    getScript().add(MoveParser.parseCommandForString(line));
-
                     Board.getInstance().print();
                 }
                 else break;

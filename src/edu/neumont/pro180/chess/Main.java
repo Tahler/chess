@@ -13,9 +13,15 @@ public class Main {
     public static void main(String[] args) {
         if (args.length == 0) UserMoveReader.start();
         else try {
-            FileMoveReader.readFile(args[0]);
+            if (args[0].trim().toLowerCase().equals("v")) {
+                FileMoveReader.readFile(args[1], FileMoveReader.Flag.VERBOSE);
+            } else {
+                FileMoveReader.readFile(args[0], FileMoveReader.Flag.NONE);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("File \"" + args[0] + "\" does not exist.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("CLI syntax incorrect.");
         }
 
         Board.getInstance().print();

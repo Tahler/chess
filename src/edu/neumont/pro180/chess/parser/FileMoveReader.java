@@ -1,6 +1,8 @@
 package edu.neumont.pro180.chess.parser;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
+import edu.neumont.pro180.chess.model.Board;
+import edu.neumont.pro180.chess.model.Move;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -8,15 +10,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 
+import static edu.neumont.pro180.chess.parser.MoveParser.parseCommand;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
 public class FileMoveReader extends MoveReader {
+
+    public enum Flag {
+        VERBOSE,
+        NONE
+    }
+
     /**
      * Reads all commands in a file and prints out the end result
      * @param fileName The text file containing the commands
      */
-    public static void readFile(String fileName) throws FileNotFoundException {
+    public static void readFile(String fileName, Flag flag) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         // TODO: abstract this somewhere else; UserMoveReader runs VERY similar code
@@ -24,19 +34,22 @@ public class FileMoveReader extends MoveReader {
         try {
             while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().trim();
-                if (!line.isEmpty()) {
+                if (!line.isEmpty() && !line.startsWith("//")) { // skip this line if it is empty or a comment
                     // TODO: parses and interprets twice
+                    String move = null;
                     try {
-                        MoveParser.parseCommand(line);
+                        move = parseCommand(line);
                     } catch (ParseException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("Bad input at: " + line);
                     } catch (IllegalMoveException e) {
                         System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
                     }
 
-                    // TODO: parses twice
-                    // TODO: create toString in Move that is called after each line?
-//                    getScript().add(MoveParser.parseCommandForString(line));
+                    // If "v" was flagged, print every move to the console.
+                    if (flag.equals(Flag.VERBOSE)) {
+                        System.out.println(move);
+                        Board.getInstance().print();
+                    }
                 }
             }
         } catch (IOException e) {

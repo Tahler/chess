@@ -1,5 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
+import edu.neumont.pro180.chess.exception.IllegalMoveException;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
@@ -33,13 +35,13 @@ public class Move {
      * 3. Move to capture a location where there is no occupying piece
      * @return True if the move is valid, false if invalid
      */
-    public boolean isValid() {
+    public boolean isValid() throws IllegalMoveException {
         // Move from a location where there is no piece
-        if (getStart().getPiece() == null) return false;
+        if (getStart().getPiece() == null) throw new IllegalMoveException("There is no piece at that location.");
         // Move to a location where there is already an occupying piece (unless it is a capture)
-        if (getEnd().getPiece() != null && !isCapture()) return false;
+        if (getEnd().getPiece() != null && !isCapture()) throw new IllegalMoveException("There is already a piece at that location.");
         // Move to capture a location where there is no occupying piece
-        if (isCapture() && getEnd().getPiece() == null) return false;
+        if (isCapture() && getEnd().getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
 
         return true;
@@ -64,6 +66,6 @@ public class Move {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Moving the " + getMover() + " from " + getStart() + " to " + getEnd();
     }
 }
