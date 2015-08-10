@@ -83,7 +83,7 @@ public class MoveParser {
     }
 
     private static Integer getRow(String row) {
-        return (Board.BOARD_WIDTH - Integer.valueOf(row));
+        return (Board.WIDTH - Integer.valueOf(row));
     }
 
     private static Integer getColumn(String column) {

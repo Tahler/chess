@@ -1,41 +1,9 @@
-rla8
-nlb8
-blc8
-qld8
-kle8
-blf8
-nlg8
-rlh8
+// Move light rook at a1 to a4
+a1a4
 
-pla7
-plb7
-plc7
-pld7
-ple7
-plf7
-plg7
-plh7
+// This should eventually cause problems
+a4b3
 
-rda1
-ndb1
-bdc1
-qdd1
-kde1
-bdf1
-ndg1
-rdh1
+// But this should go through
+a4b4
 
-pda2
-pdb2
-pdc2
-pdd2
-pde2
-pdf2
-pdg2
-pdh2
-
-a2a4
-b2b3
-c1a3
-
-g1f3

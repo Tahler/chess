@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Board {
     // Public Static Final
-    public static final Integer BOARD_WIDTH = 8;
-    public static final Integer BOARD_HEIGHT = 8;
+    public static final Integer WIDTH = 8;
+    public static final Integer HEIGHT = 8;
 
     // Private Member Variables
     private final Tile[][] tiles;

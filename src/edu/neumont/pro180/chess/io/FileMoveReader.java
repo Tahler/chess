@@ -29,6 +29,11 @@ public class FileMoveReader extends MoveReader {
     public void readFile(String fileName, Flag flag) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
+        // If the "v" flag was made, need to print the board before moves
+        if (flag.equals(Flag.VERBOSE)) {
+            Board.getInstance().print();
+        }
+
         // TODO: abstract this somewhere else; UserMoveReader runs VERY similar code
         String line = null;
         try {
