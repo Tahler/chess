@@ -35,7 +35,23 @@ public class Board {
             }
         }
 
-        // TODO: module3: setup board
+        tiles[0][0].setPiece(new Rook(ourInstance, Color.DARK));
+        tiles[0][1].setPiece(new Knight(ourInstance, Color.DARK));
+        tiles[0][2].setPiece(new Bishop(ourInstance, Color.DARK));
+        tiles[0][3].setPiece(new Queen(ourInstance, Color.DARK));
+        tiles[0][4].setPiece(new King(ourInstance, Color.DARK));
+        tiles[0][5].setPiece(new Bishop(ourInstance, Color.DARK));
+        tiles[0][6].setPiece(new Knight(ourInstance, Color.DARK));
+        tiles[0][7].setPiece(new Rook(ourInstance, Color.DARK));
+
+        tiles[7][0].setPiece(new Rook(ourInstance, Color.LIGHT));
+        tiles[7][1].setPiece(new Knight(ourInstance, Color.LIGHT));
+        tiles[7][2].setPiece(new Bishop(ourInstance, Color.LIGHT));
+        tiles[7][3].setPiece(new Queen(ourInstance, Color.LIGHT));
+        tiles[7][4].setPiece(new King(ourInstance, Color.LIGHT));
+        tiles[7][5].setPiece(new Bishop(ourInstance, Color.LIGHT));
+        tiles[7][6].setPiece(new Knight(ourInstance, Color.LIGHT));
+        tiles[7][7].setPiece(new Rook(ourInstance, Color.LIGHT));
     }
 
     /**
