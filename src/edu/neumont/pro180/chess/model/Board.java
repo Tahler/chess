@@ -35,6 +35,7 @@ public class Board {
             }
         }
 
+        // Initialize pieces.
         tiles[0][0].setPiece(new Rook(ourInstance, Color.DARK));
         tiles[0][1].setPiece(new Knight(ourInstance, Color.DARK));
         tiles[0][2].setPiece(new Bishop(ourInstance, Color.DARK));
