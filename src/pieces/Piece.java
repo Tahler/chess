@@ -1,18 +1,23 @@
-package edu.neumont.pro180.chess.model;
+package pieces;
+
+import edu.neumont.pro180.chess.model.Board;
+import edu.neumont.pro180.chess.model.Tile;
+
+import java.util.Collection;
 
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
 public abstract class Piece {
-    private final Board board;
-    private final Color color;
+    protected final Board board;
+    protected final Color color;
 
     public Piece(Board board, Color color) {
         this.board = board;
         this.color = color;
     }
 
-//    public abstract Tile[] validMoves {}
+    public abstract Collection<Tile> getValidMoves();
 
     /**
      * Shadows the Object.toString(), but serves the same purpose.

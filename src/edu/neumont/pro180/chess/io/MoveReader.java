@@ -13,7 +13,7 @@ public abstract class MoveReader {
         try {
             MoveParser.parseCommand(line);
         } catch (ParseException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
         } catch (IllegalMoveException e) {
             System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
         }

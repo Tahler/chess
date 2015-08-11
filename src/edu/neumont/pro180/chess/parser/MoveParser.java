@@ -2,6 +2,7 @@ package edu.neumont.pro180.chess.parser;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.*;
+import pieces.*;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -27,7 +28,7 @@ public class MoveParser {
 
         // If the input is bad,
         if (userDirective == null) {
-            throw new ParseException("Bad input at: " + command + ". (Syntax error)", 0);
+            throw new ParseException("Syntax error", 0);
         }
 
         Matcher matcher = null;

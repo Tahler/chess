@@ -7,3 +7,4 @@ a4b3
 // But this should go through
 a4b4
 
+b3b7
