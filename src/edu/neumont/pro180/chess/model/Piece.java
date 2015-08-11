@@ -12,7 +12,6 @@ public abstract class Piece {
         this.color = color;
     }
 
-    // TODO: make it return a collection of tiles that are unoccupied
 //    public abstract Tile[] validMoves {}
 
     /**

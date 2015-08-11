@@ -34,13 +34,11 @@ public class FileMoveReader extends MoveReader {
             Board.getInstance().print();
         }
 
-        // TODO: abstract this somewhere else; UserMoveReader runs VERY similar code
         String line = null;
         try {
             while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().trim();
                 if (!line.isEmpty() && !line.startsWith("//")) { // skip this line if it is empty or a comment
-                    // TODO: parses and interprets twice
                     String move = null;
                     try {
                         move = parseCommand(line);
@@ -51,7 +49,7 @@ public class FileMoveReader extends MoveReader {
                     }
 
                     // If "v" was flagged, print every move to the console.
-                    if (flag.equals(Flag.VERBOSE)) {
+                    if (flag.equals(Flag.VERBOSE) && move != null) {
                         System.out.println(move);
                         Board.getInstance().print();
                     }
