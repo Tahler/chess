@@ -34,7 +34,7 @@ public class MoveParser {
 
         // If the input is bad throw a ParseException
         if (userDirective == null) {
-            throw new ParseException("Bad input at: " + command + ". (Syntax error)", 0);
+            throw new ParseException("Syntax error", 0);
         }
 
         Matcher matcher = null;
