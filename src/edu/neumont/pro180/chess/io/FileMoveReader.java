@@ -52,7 +52,6 @@ public class FileMoveReader extends MoveReader {
                     if (flag.equals(Flag.VERBOSE) && move != null) {
                         System.out.println(move);
                         Board.getInstance().print();
-                        System.out.println();
                     }
                 }
             }
