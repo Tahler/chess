@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 
-import static edu.neumont.pro180.chess.parser.MoveParser.parseCommand;
+import static edu.neumont.pro180.chess.io.MoveParser.parseCommand;
 
 /**
  * Created by Tyler Berry on 8/7/2015.
@@ -39,14 +39,7 @@ public class FileMoveReader extends MoveReader {
             while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().trim();
                 if (!line.isEmpty() && !line.startsWith("//")) { // skip this line if it is empty or a comment
-                    String move = null;
-                    try {
-                        move = parseCommand(line);
-                    } catch (ParseException e) {
-                        System.out.println("Bad input at: " + line);
-                    } catch (IllegalMoveException e) {
-                        System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
-                    }
+                    String move = super.parseLine(line);
 
                     // If "v" was flagged, print every move to the console.
                     if (flag.equals(Flag.VERBOSE) && move != null) {

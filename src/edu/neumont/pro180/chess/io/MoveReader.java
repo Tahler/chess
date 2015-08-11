@@ -9,14 +9,14 @@ import java.text.ParseException;
  */
 public abstract class MoveReader {
 
-    public void parseLine(String line) {
+    public String parseLine(String line) {
+        String move = null;
         try {
-            MoveParser.parseCommand(line);
-        } catch (ParseException e) {
-            System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
-        } catch (IllegalMoveException e) {
+            move = MoveParser.parseCommand(line);
+        } catch (Exception e) {
             System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
         }
+        return move;
     }
 
 }

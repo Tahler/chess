@@ -6,8 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static edu.neumont.pro180.chess.parser.MoveParser.parseCommand;
-
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
@@ -28,15 +26,11 @@ public class UserMoveReader extends MoveReader {
 
                 // Quit on blank enter
                 if (!line.isEmpty()) {
-//                    try {
-//                        parseCommand(line);
-//                    } catch (ParseException e) {
-//                        System.out.println("Bad input at: " + line);
-//                    } catch (IllegalMoveException e) {
-//                        System.out.println("Bad input at: " + line + " (" + e.getMessage() + ")");
-//                    }
-                    super.parseLine(line);
-                    Board.getInstance().print();
+                    String move = super.parseLine(line);
+                    if (move != null) {
+                        System.out.println(move);
+                        Board.getInstance().print();
+                    }
                 }
                 else break;
             }
