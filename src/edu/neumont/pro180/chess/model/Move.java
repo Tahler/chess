@@ -33,7 +33,7 @@ public class Move implements Iterable<Tile> {
     /**
      * Returns true if move is valid.
      * Will return false if:
-     * 1. Moving to the same tile.
+     * 1. Moving to the same tile
      * 2. Move from a location where there is no piece
      * 3. Move to a location where there is already an occupying piece (unless it is a capture)
      * 4. Move to capture a location where there is no occupying piece
@@ -51,7 +51,7 @@ public class Move implements Iterable<Tile> {
         if (isCapture() && getEnd().getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
 
-        // Iterate through the path, figure out if this path is obstructed
+        // Iterate through the path, figure out if this path is obstructed (knights excluded from path obstruction)
         if (!(mover instanceof Knight)) {
             for (Tile tile : this) {
                 Piece pathBlocker = tile.getPiece();

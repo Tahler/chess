@@ -88,9 +88,6 @@ public class Board {
         return result;
     }
 
-    public Tile[][] getTiles() {
-        return tiles;
-    }
     public Tile getTile(Integer x, Integer y) {
         if (x >= 0 && x < Board.WIDTH && y >= 0 && y < Board.HEIGHT) return tiles[x][y];
         else throw new IllegalArgumentException("The tile (" + x + ", " + y + ") is not on the board!");
