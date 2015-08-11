@@ -17,7 +17,16 @@ public abstract class Piece {
         this.color = color;
     }
 
+    // TODO: will be useful to implement this for a GUI that highlights tiles
     public abstract Collection<Tile> getValidMoves();
+
+    /**
+     * @param start The piece's current position
+     * @param end The piece's ending position
+     * @return True if the move is legal according to the Piece's rules for moving,
+     *         false otherwise
+     */
+    public abstract boolean isLegalMove(Tile start, Tile end);
 
     /**
      * Shadows the Object.toString(), but serves the same purpose.

@@ -21,6 +21,13 @@ public class Queen extends Piece {
     }
 
     @Override
+    public boolean isLegalMove(Tile start, Tile end) {
+        // Rook or Bishop move
+        return (start.getX() == end.getX() || start.getY() == end.getY())
+            || (Math.abs(end.getX() - start.getX()) == Math.abs(end.getY() - start.getY()));
+    }
+
+    @Override
     public String toString() {
         return "QUEEN";
     }

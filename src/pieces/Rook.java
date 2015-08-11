@@ -22,6 +22,12 @@ public class Rook extends Piece {
     }
 
     @Override
+    public boolean isLegalMove(Tile start, Tile end) {
+        // Starting [xy] must equal ending [xy]
+        return start.getX() == end.getX() || start.getY() == end.getY();
+    }
+
+    @Override
     public String toString() {
         return "ROOK";
     }

@@ -42,14 +42,16 @@ public class Move implements Iterable<Tile> {
      */
     public boolean isValid() throws IllegalMoveException {
         // Move to and from the same location
-        if (getStart() == getEnd()) throw new IllegalMoveException("Cannot move to the same tile");
+        if (start == end) throw new IllegalMoveException("Cannot move to the same tile");
         // Move from a location where there is no piece
-        if (getStart().getPiece() == null) throw new IllegalMoveException("There is no piece at that location.");
+        if (start.getPiece() == null) throw new IllegalMoveException("There is no piece at that location.");
         // Move to a location where there is already an occupying piece (unless it is a capture)
-        if (getEnd().getPiece() != null && !isCapture()) throw new IllegalMoveException("There is already a piece at that location.");
+        if (end.getPiece() != null && !isCapture()) throw new IllegalMoveException("There is already a piece at that location.");
         // Move to capture a location where there is no occupying piece
-        if (isCapture() && getEnd().getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
+        if (isCapture && end.getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
+
+        if (!mover.isLegalMove(start, end)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move in that direction.");
 
         // Iterate through the path, figure out if this path is obstructed (knights excluded from path obstruction)
         if (!(mover instanceof Knight)) {
@@ -100,9 +102,7 @@ public class Move implements Iterable<Tile> {
         int dirY = ((endY > y) ? 1 : (y == endY) ? 0 : -1);
 
         Tile cursor = start;
-        while (cursor != end) { // TODO: ensure same reference
-            System.out.println(x + ", " + y);
-
+        while (cursor != end) {
             // Add before: the path should not include the starting tile.
             x += dirX;
             y += dirY;

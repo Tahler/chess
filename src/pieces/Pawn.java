@@ -21,6 +21,11 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public boolean isLegalMove(Tile start, Tile end) {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "PAWN";
     }
