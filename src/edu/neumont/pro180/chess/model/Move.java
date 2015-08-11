@@ -27,16 +27,16 @@ public class Move implements Iterable<Tile> {
         this.mover = mover;
         this.captured = captured;
         this.isCapture = isCapture;
-
-
     }
 
     /**
      * Returns true if move is valid.
      * Will return false if:
-     * 1. Move from a location where there is no piece
-     * 2. Move to a location where there is already an occupying piece (unless it is a capture)
-     * 3. Move to capture a location where there is no occupying piece
+     * 1. Moving to the same tile.
+     * 2. Move from a location where there is no piece
+     * 3. Move to a location where there is already an occupying piece (unless it is a capture)
+     * 4. Move to capture a location where there is no occupying piece
+     * 5. The path is blocked by another piece (unless a capture is intended)
      * @return True if the move is valid, false if invalid
      */
     public boolean isValid() throws IllegalMoveException {
@@ -98,11 +98,12 @@ public class Move implements Iterable<Tile> {
 
         Tile cursor = start;
         while (cursor != end) { // TODO: ensure same reference
+            System.out.println(x + ", " + y);
+
             // Add before: the path should not include the starting tile.
             x += dirX;
             y += dirY;
 
-            System.out.println(x + ", " + y);
             // Reassign the cursor tile
             cursor = board.getTile(x, y);
 
