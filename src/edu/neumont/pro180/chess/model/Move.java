@@ -3,10 +3,15 @@ package edu.neumont.pro180.chess.model;
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import pieces.Piece;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
-public class Move {
+public class Move implements Iterable<Tile> {
     private final Tile start;
     private final Tile end;
     private final Piece mover;
@@ -14,11 +19,7 @@ public class Move {
     private final Piece captured;
 
     public Move(Tile start, Tile end, boolean isCapture) {
-        this.start = start;
-        this.end = end;
-        this.mover = start.getPiece();
-        this.isCapture = isCapture;
-        this.captured = end.getPiece();
+        this(start, end, start.getPiece(), end.getPiece(), isCapture);
     }
     public Move(Tile start, Tile end, Piece mover, Piece captured, boolean isCapture) {
         this.start = start;
@@ -26,6 +27,8 @@ public class Move {
         this.mover = mover;
         this.captured = captured;
         this.isCapture = isCapture;
+
+
     }
 
     /**
@@ -37,6 +40,8 @@ public class Move {
      * @return True if the move is valid, false if invalid
      */
     public boolean isValid() throws IllegalMoveException {
+        // Move to and from the same location
+        if (getStart() == getEnd()) throw new IllegalMoveException("Cannot move to the same tile");
         // Move from a location where there is no piece
         if (getStart().getPiece() == null) throw new IllegalMoveException("There is no piece at that location.");
         // Move to a location where there is already an occupying piece (unless it is a capture)
@@ -44,6 +49,12 @@ public class Move {
         // Move to capture a location where there is no occupying piece
         if (isCapture() && getEnd().getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
+
+        // Iterate through the path, figure out if this path is obstructed
+        for (Tile tile : this) {
+            Piece pathBlocker = tile.getPiece();
+            if (pathBlocker != null && tile != end) throw new IllegalMoveException("The " + pathBlocker.toStringTeam() + " is in the way of the " + mover.toStringTeam());
+        }
 
         return true;
     }
@@ -68,5 +79,37 @@ public class Move {
     @Override
     public String toString() {
         return "Moving the " + mover.toStringTeam() + " from " + start.toString() + " to " + end.toString();
+    }
+
+    @Override
+    public Iterator<Tile> iterator() {
+        Board board = Board.getInstance();
+        Collection<Tile> path = new ArrayList<>();
+
+        int x = start.getX();
+        int y = start.getY();
+
+        int endX = end.getX();
+        int endY = end.getY();
+
+        // 1 for further down, -1 for further back, 0 for static
+        int dirX = ((endX > x) ? 1 : (x == endX) ? 0 : -1);
+        int dirY = ((endY > y) ? 1 : (y == endY) ? 0 : -1);
+
+        Tile cursor = start;
+        while (cursor != end) { // TODO: ensure same reference
+            // Add before: the path should not include the starting tile.
+            x += dirX;
+            y += dirY;
+
+            System.out.println(x + ", " + y);
+            // Reassign the cursor tile
+            cursor = board.getTile(x, y);
+
+            // Finally, add the cursor tile
+            path.add(cursor);
+        }
+
+        return path.iterator();
     }
 }

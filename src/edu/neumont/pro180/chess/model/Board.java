@@ -19,9 +19,9 @@ public class Board {
     private List<Move> moves = new ArrayList<>();
 
     // Singleton setup
-    private static Board ourInstance = new Board();
+    private static Board instance = new Board();
     public static Board getInstance() {
-        return ourInstance;
+        return instance;
     }
     private Board() {
         // Initialize tiles
@@ -37,23 +37,23 @@ public class Board {
         }
 
         // Initialize pieces.
-        tiles[0][0].setPiece(new Rook(ourInstance, Color.DARK));
-        tiles[0][1].setPiece(new Knight(ourInstance, Color.DARK));
-        tiles[0][2].setPiece(new Bishop(ourInstance, Color.DARK));
-        tiles[0][3].setPiece(new Queen(ourInstance, Color.DARK));
-        tiles[0][4].setPiece(new King(ourInstance, Color.DARK));
-        tiles[0][5].setPiece(new Bishop(ourInstance, Color.DARK));
-        tiles[0][6].setPiece(new Knight(ourInstance, Color.DARK));
-        tiles[0][7].setPiece(new Rook(ourInstance, Color.DARK));
+        tiles[0][0].setPiece(new Rook(instance, Color.DARK));
+        tiles[0][1].setPiece(new Knight(instance, Color.DARK));
+        tiles[0][2].setPiece(new Bishop(instance, Color.DARK));
+        tiles[0][3].setPiece(new Queen(instance, Color.DARK));
+        tiles[0][4].setPiece(new King(instance, Color.DARK));
+        tiles[0][5].setPiece(new Bishop(instance, Color.DARK));
+        tiles[0][6].setPiece(new Knight(instance, Color.DARK));
+        tiles[0][7].setPiece(new Rook(instance, Color.DARK));
 
-        tiles[7][0].setPiece(new Rook(ourInstance, Color.LIGHT));
-        tiles[7][1].setPiece(new Knight(ourInstance, Color.LIGHT));
-        tiles[7][2].setPiece(new Bishop(ourInstance, Color.LIGHT));
-        tiles[7][3].setPiece(new Queen(ourInstance, Color.LIGHT));
-        tiles[7][4].setPiece(new King(ourInstance, Color.LIGHT));
-        tiles[7][5].setPiece(new Bishop(ourInstance, Color.LIGHT));
-        tiles[7][6].setPiece(new Knight(ourInstance, Color.LIGHT));
-        tiles[7][7].setPiece(new Rook(ourInstance, Color.LIGHT));
+        tiles[7][0].setPiece(new Rook(instance, Color.LIGHT));
+        tiles[7][1].setPiece(new Knight(instance, Color.LIGHT));
+        tiles[7][2].setPiece(new Bishop(instance, Color.LIGHT));
+        tiles[7][3].setPiece(new Queen(instance, Color.LIGHT));
+        tiles[7][4].setPiece(new King(instance, Color.LIGHT));
+        tiles[7][5].setPiece(new Bishop(instance, Color.LIGHT));
+        tiles[7][6].setPiece(new Knight(instance, Color.LIGHT));
+        tiles[7][7].setPiece(new Rook(instance, Color.LIGHT));
     }
 
     /**
@@ -90,6 +90,10 @@ public class Board {
 
     public Tile[][] getTiles() {
         return tiles;
+    }
+    public Tile getTile(Integer x, Integer y) {
+        if (x > 0 && x < Board.WIDTH && y > 0 && y < Board.HEIGHT) return tiles[x][y];
+        else throw new IllegalArgumentException("The tile (" + x + ", " + y + ") is not on the board!");
     }
 
     /**

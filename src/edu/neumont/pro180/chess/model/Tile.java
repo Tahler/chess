@@ -18,6 +18,13 @@ public class Tile {
         else throw new IndexOutOfBoundsException("Cannot create a tile in that column!");
     }
 
+    public int getX() {
+        return row;
+    }
+    public int getY() {
+        return col;
+    }
+
     public Piece getPiece() {
         return piece;
     }
@@ -33,5 +40,4 @@ public class Tile {
     public String toString() {
         return String.valueOf((char) (col + 97)).toUpperCase() + (Board.WIDTH - row);
     }
-
 }
