@@ -1,6 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
+import pieces.Knight;
 import pieces.Piece;
 
 import java.util.ArrayList;
@@ -51,9 +52,11 @@ public class Move implements Iterable<Tile> {
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
 
         // Iterate through the path, figure out if this path is obstructed
-        for (Tile tile : this) {
-            Piece pathBlocker = tile.getPiece();
-            if (pathBlocker != null && tile != end) throw new IllegalMoveException("The " + pathBlocker.toStringTeam() + " is in the way of the " + mover.toStringTeam());
+        if (!(mover instanceof Knight)) {
+            for (Tile tile : this) {
+                Piece pathBlocker = tile.getPiece();
+                if (pathBlocker != null && tile != end) throw new IllegalMoveException("The " + pathBlocker.toStringTeam() + " is in the way of the " + mover.toStringTeam());
+            }
         }
 
         return true;
