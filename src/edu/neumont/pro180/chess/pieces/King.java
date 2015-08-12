@@ -1,17 +1,16 @@
-package pieces;
+package edu.neumont.pro180.chess.pieces;
 
 import edu.neumont.pro180.chess.model.Board;
 import edu.neumont.pro180.chess.model.Tile;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
-public class Rook extends Piece {
-    public Rook(Board board, Color color) {
+public class King extends Piece {
+    public King(Board board, Color color) {
         super(board, color);
     }
 
@@ -23,16 +22,17 @@ public class Rook extends Piece {
 
     @Override
     public boolean isLegalMove(Tile start, Tile end) {
-        // Starting [xy] must equal ending [xy]
-        return start.getX() == end.getX() || start.getY() == end.getY();
+        // Only one space in any direction
+        return Math.abs(start.getX() - end.getX()) <= 1
+            && Math.abs(start.getY() - end.getY()) <= 1;
     }
 
     @Override
     public String toString() {
-        return "ROOK";
+        return "KING";
     }
 
     public Character toChar() {
-        return 'R';
+        return 'K';
     }
 }

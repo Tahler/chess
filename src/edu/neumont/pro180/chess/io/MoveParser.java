@@ -2,7 +2,7 @@ package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.*;
-import pieces.*;
+import edu.neumont.pro180.chess.pieces.*;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;

@@ -1,6 +1,6 @@
 package edu.neumont.pro180.chess.model;
 
-import pieces.Piece;
+import edu.neumont.pro180.chess.pieces.Piece;
 
 /**
  * Created by Tyler Berry on 8/7/2015.

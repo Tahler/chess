@@ -1,4 +1,4 @@
-package pieces;
+package edu.neumont.pro180.chess.pieces;
 
 import edu.neumont.pro180.chess.model.Board;
 import edu.neumont.pro180.chess.model.Tile;

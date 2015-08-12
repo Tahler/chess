@@ -1,7 +1,10 @@
-kld8
-qda3
-ldai30
-d1e7
-d1e7e4b6
-a3a6
-d8e8
+// Move light rook at a1 to a4
+a1a4
+
+// This should cause problems
+a4b3
+
+// But this should go through
+a4b4
+
+b3b7

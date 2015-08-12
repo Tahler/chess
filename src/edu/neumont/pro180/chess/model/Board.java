@@ -1,7 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import pieces.*;
+import edu.neumont.pro180.chess.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;

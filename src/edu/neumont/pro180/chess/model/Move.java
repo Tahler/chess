@@ -1,13 +1,12 @@
 package edu.neumont.pro180.chess.model;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import pieces.Knight;
-import pieces.Piece;
+import edu.neumont.pro180.chess.pieces.Knight;
+import edu.neumont.pro180.chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Tyler Berry on 8/7/2015.
