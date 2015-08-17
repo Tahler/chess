@@ -22,9 +22,9 @@ public class Knight extends Piece {
 
     @Override
     public boolean isLegalMove(Tile start, Tile end) {
-        return (Math.abs(start.getX() - end.getX()) <= 2 && Math.abs(start.getX() - end.getX()) <= 2)
-            && !((start.getX() == end.getX() || start.getY() == end.getY())
-                || (Math.abs(end.getX() - start.getX()) == Math.abs(end.getY() - start.getY())));
+        return (Math.abs(start.getY() - end.getY()) <= 2 && Math.abs(start.getY() - end.getY()) <= 2)
+            && !((start.getY() == end.getY() || start.getX() == end.getX())
+                || (Math.abs(end.getY() - start.getY()) == Math.abs(end.getX() - start.getX())));
     }
 
     @Override

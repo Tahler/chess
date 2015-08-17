@@ -1,10 +1,4 @@
-a8b7
-a8a3
-b8b6
-b8a6
-c8c7
-c8g4
-d8c6
-d8d2
-e8e6
-e8d7
+a2a4
+a4a6
+b7b6
+c7c5

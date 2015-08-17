@@ -17,6 +17,10 @@ public abstract class Piece {
         this.color = color;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     // TODO: will be useful to implement this for a GUI that highlights tiles
     public abstract Collection<Tile> getValidMoves();
 

@@ -22,7 +22,7 @@ public class Bishop extends Piece {
 
     @Override
     public boolean isLegalMove(Tile start, Tile end) {
-        return Math.abs(end.getX() - start.getX()) == Math.abs(end.getY() - start.getY());
+        return Math.abs(end.getY() - start.getY()) == Math.abs(end.getX() - start.getX());
     }
 
     @Override

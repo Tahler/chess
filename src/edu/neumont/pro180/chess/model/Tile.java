@@ -18,10 +18,11 @@ public class Tile {
         else throw new IndexOutOfBoundsException("Cannot create a tile in that column!");
     }
 
-    public int getX() {
+    // Might seem backwards, but it makes the board more like a window coordinate system
+    public int getY() {
         return row;
     }
-    public int getY() {
+    public int getX() {
         return col;
     }
 

@@ -52,7 +52,7 @@ public class Move implements Iterable<Tile> {
         if (captured == null &&  isCapture) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
 
-        if (!mover.isLegalMove(start, end)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move in that direction.");
+        if (!mover.isLegalMove(start, end)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move to that location.");
 
         // Iterate through the path, figure out if this path is obstructed (knights excluded from path obstruction)
         if (!(mover instanceof Knight)) {

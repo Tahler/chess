@@ -23,8 +23,8 @@ public class King extends Piece {
     @Override
     public boolean isLegalMove(Tile start, Tile end) {
         // Only one space in any direction
-        return Math.abs(start.getX() - end.getX()) <= 1
-            && Math.abs(start.getY() - end.getY()) <= 1;
+        return Math.abs(start.getY() - end.getY()) <= 1
+            && Math.abs(start.getX() - end.getX()) <= 1;
     }
 
     @Override
