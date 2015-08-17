@@ -1,6 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
+import edu.neumont.pro180.chess.model.pieces.Color;
 import edu.neumont.pro180.chess.model.pieces.Knight;
 import edu.neumont.pro180.chess.model.pieces.Piece;
 
@@ -12,6 +13,8 @@ import java.util.Iterator;
  * Created by Tyler Berry on 8/7/2015.
  */
 public class Move implements Iterable<Tile> {
+    private static Color lastMoveColor = Color.DARK;
+
     private final Tile start;
     private final Tile end;
     private final Piece mover;
@@ -19,13 +22,10 @@ public class Move implements Iterable<Tile> {
     private final Piece captured;
 
     public Move(Tile start, Tile end, boolean isCapture) {
-        this(start, end, start.getPiece(), end.getPiece(), isCapture);
-    }
-    public Move(Tile start, Tile end, Piece mover, Piece captured, boolean isCapture) {
         this.start = start;
         this.end = end;
-        this.mover = mover;
-        this.captured = captured;
+        this.mover = start.getPiece();
+        this.captured = end.getPiece();
         this.isCapture = isCapture;
     }
 
@@ -40,14 +40,16 @@ public class Move implements Iterable<Tile> {
      * @return True if the move is valid, false if invalid
      */
     public boolean isValid() throws IllegalMoveException {
-        // Move to and from the same location
+        // Move to the same location
         if (start == end) throw new IllegalMoveException("Cannot move to the same tile");
         // Move from a location where there is no piece
-        if (start.getPiece() == null) throw new IllegalMoveException("There is no piece at that location.");
+        if (mover == null) throw new IllegalMoveException("There is no piece at that location.");
+        // If it is not that piece's team's turn
+        if (mover.getColor() == lastMoveColor) throw new IllegalMoveException("It is not currently " + mover.getColor() + "'s turn!");
         // Move to a location where there is already an occupying piece (unless it is a capture)
-        if (end.getPiece() != null && !isCapture()) throw new IllegalMoveException("There is already a piece at that location.");
+        if (captured != null && !isCapture) throw new IllegalMoveException("There is already a piece at that location.");
         // Move to capture a location where there is no occupying piece
-        if (isCapture && end.getPiece() == null) throw new IllegalMoveException("There is no piece to capture at that location.");
+        if (captured == null &&  isCapture) throw new IllegalMoveException("There is no piece to capture at that location.");
         // Move from or to a location that doesn't exist: COVERED IN TILE CONSTRUCTOR
 
         if (!mover.isLegalMove(start, end)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move in that direction.");
@@ -90,11 +92,11 @@ public class Move implements Iterable<Tile> {
         Board board = Board.getInstance();
         Collection<Tile> path = new ArrayList<>();
 
-        int x = start.getX();
-        int y = start.getY();
+        int x = start.getY();
+        int y = start.getX();
 
-        int endX = end.getX();
-        int endY = end.getY();
+        int endX = end.getY();
+        int endY = end.getX();
 
         // 1 for further down, -1 for further back, 0 for static
         int dirX = ((endX > x) ? 1 : (x == endX) ? 0 : -1);

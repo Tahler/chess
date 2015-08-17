@@ -14,6 +14,9 @@ public class Board {
     public static final Integer WIDTH = 8;
     public static final Integer HEIGHT = 8;
 
+    public static final Integer LIGHT_PAWN_ROW = 6;
+    public static final Integer DARK_PAWN_ROW = 1;
+
     // Private Member Variables
     private final Tile[][] tiles;
     private List<Move> moves = new ArrayList<>();
@@ -45,6 +48,24 @@ public class Board {
         tiles[0][5].setPiece(new Bishop(instance, Color.DARK));
         tiles[0][6].setPiece(new Knight(instance, Color.DARK));
         tiles[0][7].setPiece(new Rook(instance, Color.DARK));
+
+        tiles[1][0].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][1].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][2].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][3].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][4].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][5].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][6].setPiece(new Pawn(instance, Color.DARK));
+        tiles[1][7].setPiece(new Pawn(instance, Color.DARK));
+
+        tiles[6][0].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][1].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][2].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][3].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][4].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][5].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][6].setPiece(new Pawn(instance, Color.LIGHT));
+        tiles[6][7].setPiece(new Pawn(instance, Color.LIGHT));
 
         tiles[7][0].setPiece(new Rook(instance, Color.LIGHT));
         tiles[7][1].setPiece(new Knight(instance, Color.LIGHT));
