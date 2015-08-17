@@ -45,7 +45,7 @@ public class Move implements Iterable<Tile> {
         // Move from a location where there is no piece
         if (mover == null) throw new IllegalMoveException("There is no piece at that location.");
         // If it is not that piece's team's turn
-        if (mover.getColor() == lastMoveColor) throw new IllegalMoveException("It is not currently " + mover.getColor() + "'s turn!");
+        if (mover.getColor() == lastMoveColor) throw new IllegalMoveException("It is not currently " + mover.getColor() + "'s turn.");
         // Move to a location where there is already an occupying piece (unless it is a capture)
         if (captured != null && !isCapture) throw new IllegalMoveException("There is already a piece at that location.");
         // Move to capture a location where there is no occupying piece
@@ -62,6 +62,7 @@ public class Move implements Iterable<Tile> {
             }
         }
 
+        Move.lastMoveColor = mover.getColor();
         return true;
     }
 
