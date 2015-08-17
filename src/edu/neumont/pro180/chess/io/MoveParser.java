@@ -2,7 +2,7 @@ package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.model.*;
-import edu.neumont.pro180.chess.pieces.*;
+import edu.neumont.pro180.chess.model.pieces.*;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -26,12 +26,12 @@ public class MoveParser {
     public static String parseCommand(String command) throws ParseException, IllegalMoveException {
         Directive userDirective = parseDirective(command);
 
-        // If the input is bad,
+        // If the input is bad
         if (userDirective == null) {
             throw new ParseException("Syntax error", 0);
         }
 
-        Matcher matcher = null;
+        Matcher matcher;
         switch (userDirective) {
             case PIECE_PLACEMENT:
                 matcher = piecePlacementPattern.matcher(command);

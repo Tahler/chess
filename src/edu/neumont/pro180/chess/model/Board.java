@@ -1,7 +1,7 @@
 package edu.neumont.pro180.chess.model;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import edu.neumont.pro180.chess.pieces.*;
+import edu.neumont.pro180.chess.model.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +124,7 @@ public class Board {
      * 1 | - | - | - | - | - | - | - | - |
      *   ---------------------------------
      *
-     * @return The string representation of the board (includes new lines)
+     * @return The string representation of the board, including new lines
      */
     public String toString() {
         String board = "" +

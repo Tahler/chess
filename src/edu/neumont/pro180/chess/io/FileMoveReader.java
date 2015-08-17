@@ -34,7 +34,7 @@ public class FileMoveReader extends MoveReader {
             Board.getInstance().print();
         }
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().trim();

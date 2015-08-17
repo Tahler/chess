@@ -1,14 +1,10 @@
-a1a4
-
+a8b7
+a8a3
+b8b6
+b8a6
+c8c7
 c8g4
-
-// Bishop should be in the way
-a4h4
-
-// Not a capture
-a4g4
-
-// Capture
-a4g4*
-
-a4444
+d8c6
+d8d2
+e8e6
+e8d7

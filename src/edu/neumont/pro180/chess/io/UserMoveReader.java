@@ -18,7 +18,7 @@ public class UserMoveReader extends MoveReader {
         Board.getInstance().print();
 
         try {
-            String line = null;
+            String line;
             while (true) {
                 // Get user input
                 System.out.print('>');
