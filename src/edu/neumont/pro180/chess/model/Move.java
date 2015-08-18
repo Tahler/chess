@@ -13,7 +13,7 @@ import java.util.Iterator;
  * Created by Tyler Berry on 8/7/2015.
  */
 public class Move implements Iterable<Tile> {
-    private static Color lastMoveColor = Color.DARK;
+    private static Color lastMoveColor = Color.DARK; // divide number of moves by two instead?
 
     private final Tile start;
     private final Tile end;
