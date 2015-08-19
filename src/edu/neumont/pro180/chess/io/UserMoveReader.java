@@ -1,6 +1,6 @@
 package edu.neumont.pro180.chess.io;
 
-import edu.neumont.pro180.chess.model.Board;
+import edu.neumont.pro180.chess.core.Board;
 
 import java.io.BufferedReader;
 import java.io.IOException;

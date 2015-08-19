@@ -1,6 +1,6 @@
 package edu.neumont.pro180.chess;
 
-import edu.neumont.pro180.chess.model.*;
+import edu.neumont.pro180.chess.core.*;
 import edu.neumont.pro180.chess.io.FileMoveReader;
 import edu.neumont.pro180.chess.io.UserMoveReader;
 

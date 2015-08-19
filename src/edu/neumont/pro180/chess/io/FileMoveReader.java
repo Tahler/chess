@@ -1,16 +1,11 @@
 package edu.neumont.pro180.chess.io;
 
-import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import edu.neumont.pro180.chess.model.Board;
-import edu.neumont.pro180.chess.model.Move;
+import edu.neumont.pro180.chess.core.Board;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
-
-import static edu.neumont.pro180.chess.io.MoveParser.parseCommand;
 
 /**
  * Created by Tyler Berry on 8/7/2015.

@@ -2,3 +2,6 @@ a2a4
 a4a6
 b7b6
 c7c5
+b2b3
+b6b5
+a4b5*

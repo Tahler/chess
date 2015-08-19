@@ -1,8 +1,7 @@
 package edu.neumont.pro180.chess.io;
 
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import edu.neumont.pro180.chess.model.*;
-import edu.neumont.pro180.chess.model.pieces.*;
+import edu.neumont.pro180.chess.core.*;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
