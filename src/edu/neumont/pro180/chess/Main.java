@@ -1,7 +1,8 @@
 package edu.neumont.pro180.chess;
 
-import edu.neumont.pro180.chess.core.*;
+import edu.neumont.pro180.chess.core.Engine;
 import edu.neumont.pro180.chess.io.FileMoveReader;
+import edu.neumont.pro180.chess.io.MoveReader;
 import edu.neumont.pro180.chess.io.UserMoveReader;
 
 import java.io.FileNotFoundException;
@@ -11,19 +12,43 @@ import java.io.FileNotFoundException;
  */
 public class Main {
     public static void main(String[] args) {
-        if (args.length == 0) new UserMoveReader().start();
-        else try {
-            if (args[0].trim().toLowerCase().equals("v")) {
-                new FileMoveReader().readFile(args[1], FileMoveReader.Flag.VERBOSE);
-            } else {
-                new FileMoveReader().readFile(args[0], FileMoveReader.Flag.NONE);
+        MoveReader mr = null;
+        Flag flag = null;
+
+        try {
+            if (args.length == 0) mr = new UserMoveReader();
+            else if (args.length == 1) {
+                // Verbose user input
+                if (args[0].toLowerCase().equals("v")) {
+                    flag = Flag.VERBOSE;
+                // Non-verbose file input
+                } else {
+                    flag = Flag.NONE;
+                    mr = new FileMoveReader(args[0].trim());
+
+                }
+            } else { // args.length >= 2
+                // Verbose file input, v first
+                if (args[0].toLowerCase().equals("v")) {
+                    flag = Flag.VERBOSE;
+                    mr = new FileMoveReader(args[0].trim());
+                // Verbose file input, file first
+                } else if (args[1].toLowerCase().equals("v")) {
+                    flag = Flag.VERBOSE;
+                    mr = new FileMoveReader(args[0].trim());
+                }
             }
+
+            new Engine(mr, flag).play();
         } catch (FileNotFoundException e) {
             System.out.println("File \"" + args[0] + "\" does not exist.");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("CLI syntax incorrect.");
+            System.out.println("CLI syntax incorrect");
         }
+    }
 
-        Board.getInstance().print();
+    public enum Flag {
+        VERBOSE,
+        NONE
     }
 }
