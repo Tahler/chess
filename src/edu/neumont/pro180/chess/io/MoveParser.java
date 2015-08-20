@@ -22,8 +22,8 @@ public class MoveParser {
         Matcher matcher = movementPattern.matcher(command);
 
         if (matcher.find()) {
-            return new Move(getRow(matcher.group(2)), getColumn(matcher.group(1)),
-                    getRow(matcher.group(4)), getColumn(matcher.group(3)));
+            return new Move(getColumn(matcher.group(1)), getRow(matcher.group(2)),
+                    getColumn(matcher.group(3)), getRow(matcher.group(4)));
         } else {
             throw new ParseException(command + ": invalid syntax", 0);
         }

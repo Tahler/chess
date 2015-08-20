@@ -216,12 +216,12 @@ public class MoveValidator {
         if (board.getPieceAt(p.x, p.y).getColor().equals(Color.LIGHT)) {
             if (board.getPieceAt(p.x, p.y - 1) == null) { // Pawn can move forward one space as long as no piece is blocking
                 moves.add(new Move(p.x, p.y, p.x, p.y - 1));
-                if (p.y == 1) moves.add(new Move(p.x, p.y, p.x, p.y - 2)); // Pawn can move forward two spots
+                if (p.y == 6) moves.add(new Move(p.x, p.y, p.x, p.y - 2)); // Pawn can move forward two spots
             }
         } else {
             if (board.getPieceAt(p.x, p.y + 1) == null) {
                 moves.add(new Move(p.x, p.y, p.x, p.y + 1));
-                if (p.y == 6) moves.add(new Move(p.x, p.y, p.x, p.y + 2)); // TODO: will this allow a pawn to jump over a piece in front of it on the first move??
+                if (p.y == 1) moves.add(new Move(p.x, p.y, p.x, p.y + 2)); // TODO: will this allow a pawn to jump over a piece in front of it on the first move??
             }
         }
 

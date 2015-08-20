@@ -34,7 +34,7 @@ public class Move {
         int x2 = getEnd().x;
         int y2 = getEnd().y;
 
-        Piece p = board[x1][y1];
+        Piece p = board[y1][x1];
 
         if(p != null) {
             mover = p;
@@ -72,16 +72,13 @@ public class Move {
         Move move = (Move) o;
 
         if (start != null ? !start.equals(move.start) : move.start != null) return false;
-        if (end != null ? !end.equals(move.end) : move.end != null) return false;
-        return !(mover != null ? !mover.equals(move.mover) : move.mover != null);
-
+        return !(end != null ? !end.equals(move.end) : move.end != null);
     }
 
     @Override
     public int hashCode() {
         int result = start != null ? start.hashCode() : 0;
         result = 31 * result + (end != null ? end.hashCode() : 0);
-        result = 31 * result + (mover != null ? mover.hashCode() : 0);
         return result;
     }
 
