@@ -5,5 +5,17 @@ package edu.neumont.pro180.chess.core.model;
  */
 public enum Color {
     LIGHT,
-    DARK
+    DARK;
+
+    public Color swap() {
+        return swap(this);
+    }
+
+    public static Color swap(Color color) {
+        if (color.equals(Color.LIGHT)) {
+            return Color.DARK;
+        } else {
+            return Color.LIGHT;
+        }
+    }
 }

@@ -1,10 +1,6 @@
 package edu.neumont.pro180.chess.io;
 
-import edu.neumont.pro180.chess.core.model.Board;
-import edu.neumont.pro180.chess.core.model.Color;
 import edu.neumont.pro180.chess.core.model.Move;
-import edu.neumont.pro180.chess.core.model.Piece;
-import edu.neumont.pro180.chess.exception.IllegalMoveException;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;

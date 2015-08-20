@@ -19,7 +19,7 @@ public class Board {
     public Tile darkKingLocation;
 
     // The color of the player whose turn it is
-    private Color currentTurn;
+    public Color currentTurn;
 
     private List<Move> moveHistory = new ArrayList<>();
 
@@ -58,6 +58,7 @@ public class Board {
     public void makeMove(Move move) {
         executeMove(move);
         moveHistory.add(move);
+        currentTurn.swap(); // Switch who's turn it is
     }
 
     /**
@@ -97,23 +98,6 @@ public class Board {
         move.execute(board);
     }
 
-    /**
-     * Executes a move on the board if it is valid
-     * @throws IllegalMoveException Thrown if the move is illegal
-     */
-//    public void tryMove(Move move) throws IllegalMoveException {
-//        if (move.isValid()) {
-//            move.getStart().setPiece(null);
-//            move.getEnd().setPiece(move.getMover());
-//            moveHistory.add(move);
-//        } else throw new IllegalMoveException("That move is invalid");
-//    }
-//    public Move tryMove(int startRow, int startCol, int endRow, int endCol) throws IllegalMoveException {
-//        Move result = new Move(pieces[startRow][startCol], pieces[endRow][endCol]);
-//        this.tryMove(result);
-//        return result;
-//    }
-
     public Piece getPieceAt(Tile location) {
         return getPieceAt(location.x, location.y);
     }
@@ -121,13 +105,6 @@ public class Board {
     public Piece getPieceAt(Integer x, Integer y) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) return board[x][y];
         else throw new IllegalArgumentException("The tile (" + x + ", " + y + ") is not on the board!");
-    }
-
-    /**
-     * Prints the boards toString() to the console.
-     */
-    public void print() {
-        System.out.println(this.toString());
     }
 
     /**

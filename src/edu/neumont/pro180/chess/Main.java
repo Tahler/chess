@@ -16,11 +16,15 @@ public class Main {
         Flag flag = null;
 
         try {
-            if (args.length == 0) mr = new UserMoveReader();
+            if (args.length == 0) {
+                flag = Flag.NONE;
+                mr = new UserMoveReader();
+            }
             else if (args.length == 1) {
                 // Verbose user input
                 if (args[0].toLowerCase().equals("v")) {
                     flag = Flag.VERBOSE;
+                    mr = new UserMoveReader();
                 // Non-verbose file input
                 } else {
                     flag = Flag.NONE;
