@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * Created by Tyler Berry on 8/7/2015.
  */
 public class MoveParser {
-    private static Pattern movementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])(\\*)?");
+    private static Pattern movementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])");
 
     /**
      * Parses and passes directives onto the board.
@@ -21,9 +21,7 @@ public class MoveParser {
     public Move parseCommand(String command) throws ParseException {
         Matcher matcher = movementPattern.matcher(command);
 
-        if (matcher.matches()) {
-            matcher.find();
-
+        if (matcher.find()) {
             return new Move(getRow(matcher.group(2)), getColumn(matcher.group(1)),
                     getRow(matcher.group(4)), getColumn(matcher.group(3)));
         } else {

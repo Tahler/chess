@@ -32,14 +32,15 @@ import java.util.*;
  * Created by Tyler Berry on 8/18/2015.
  */
 public class MoveValidator {
-    private final Board board;
+    public final Board board;
 
     public MoveValidator(Board board) {
         this.board = board;
     }
 
     public Boolean isValid(Move move) {
-        return getValidMoves(move.getStart()).contains(move);
+        List<Move> moves = getValidMoves(move.getStart());
+        return moves != null && moves.contains(move);
     }
 
     /**
@@ -53,8 +54,10 @@ public class MoveValidator {
         List<Move> moves;
         Piece mover = board.getPieceAt(p.x, p.y);
 
+        if (mover == null) return null;
+//        System.out.println(mover);
         // Retrieve the possible moves based on the piece's type
-        switch (board.getPieceAt(p.x, p.y).getType()) {
+        switch (mover.getType()) {
             case PAWN:
                 moves = getPawnMoves(p);
                 break;
@@ -78,29 +81,87 @@ public class MoveValidator {
         }
 
         // Filter: don't allow pieces to move on top of their own pieces
-        for(Move move : moves) {
+        for (int i = 0; i < moves.size(); i++) {
+            Move move = moves.get(i);
             // Remove from the possible moves if attempting to capture its own color
             Piece captured = board.getPieceAt(move.getEnd().x, move.getEnd().y);
-            if (captured != null && captured.getColor().equals(mover.getColor())) moves.remove(move);
+            if (captured != null && captured.getColor().equals(mover.getColor())) {
+                moves.remove(i);
+                i--;
+            }
             // Remove from the possible moves if the move would put the king in check
             else {
-                board.makeMove(move); // Make a move
-                if (isAttacked( // Pass the current player's King location to check if it's in check
-                       mover.getColor().equals(Color.LIGHT) ? board.lightKingLocation : board.darkKingLocation)) {
-                    moves.remove(move);
-                }
-                board.undoMove(); // Undo the move
+//                board.makeMove(move); // Make a move
+//                if (isAttacked( // Pass the current player's King location to check if it's in check
+//                       mover.getColor().equals(Color.LIGHT) ? board.lightKingLocation : board.darkKingLocation)) {
+//                    moves.remove(i);
+//                    i--;
+//                }
+//                board.undoMove(); // Undo the move
             }
         }
 
         return (moves.size() == 0) ? null : moves;
     }
 
+    public List<Move> getValidAttacks(Tile p) {
+        List<Move> attacks;
+        Piece mover = board.getPieceAt(p.x, p.y);
+
+        if (mover == null) return null;
+
+        // Retrieve the possible attacks based on the piece's type's move shapes
+        switch (mover.getType()) {
+            case PAWN:
+                attacks = getPawnAttacks(p);
+                break;
+            case ROOK:
+                attacks = getRookAttacks(p);
+                break;
+            case KNIGHT:
+                attacks = getKnightAttacks(p);
+                break;
+            case BISHOP:
+                attacks = getBishopAttacks(p);
+                break;
+            case QUEEN:
+                attacks = getQueenAttacks(p);
+                break;
+            case KING:
+                attacks = getKingAttacks(p);
+                break;
+            default:
+                return null; // No piece on this tile: no valid Attacks
+        }
+
+        // Filter the attacks
+        if (attacks != null) {
+            for (int i = 0; i < attacks.size(); i++) {
+                Move attack = attacks.get(i);
+                Piece attacked = board.getPieceAt(attack.getEnd());
+                if (attacked == null || attacked.getColor().equals(mover.getColor())) { // if no piece would be taken of if the attacked piece is of the same color, remove
+                    attacks.remove(i);
+                    i--;
+                } else {
+//                    board.makeMove(attack);
+//                    if (isAttacked( // Pass the current player's King location to check if it's in check
+//                            mover.getColor().equals(Color.LIGHT) ? board.lightKingLocation : board.darkKingLocation)) {
+//                        attacks.remove(i);
+//                        i--;
+//                    }
+//                    board.undoMove();
+                }
+            }
+        }
+
+        return (attacks.size() == 0) ? null : attacks;
+    }
+
     /**
      * @param location The tile location of the potentially attacked piece
      * @return True if the piece at the tile location could be attacked in the current board state, false otherwise
      */
-    private Boolean isAttacked(Tile location) {
+    public Boolean isAttacked(Tile location) {
         Color color = board.getPieceAt(location).getColor(); // The color of the attacked
         Piece potentialAttacker;
         // If any possible next move on the board
@@ -108,7 +169,7 @@ public class MoveValidator {
             for (int j = 0; j < 8; j++) {
                 potentialAttacker = board.getPieceAt(i, j);
                 if (potentialAttacker != null && !potentialAttacker.getColor().equals(color)) {
-                    List<Move> attacks = getValidMoves(new Tile(i, j));
+                    List<Move> attacks = getValidAttacks(new Tile(i, j));
                     if (attacks != null) {
                         for (Move move : attacks) {
                             if (move.getEnd().equals(location)) return true;
@@ -124,6 +185,27 @@ public class MoveValidator {
         return isAttacked(new Tile(x, y));
     }
 
+    /*
+            a   b   c   d   e   f   g   h
+          ---------------------------------
+        8 | R | N | B | Q | K | B | N | R |
+          ---------------------------------
+        7 | P | P | P | P | P | P | P | P |
+          ---------------------------------
+        6 | - | - | - | - | - | - | - | - |
+          ---------------------------------
+        5 | - | - | - | - | - | - | - | - |
+          ---------------------------------
+        4 | - | - | - | - | - | - | - | - |
+          ---------------------------------
+        3 | - | - | - | - | - | - | - | - |
+          ---------------------------------
+        2 | P | P | P | P | P | P | P | P |
+          ---------------------------------
+        1 | R | N | B | Q | K | B | N | R |
+          ---------------------------------
+    */
+
     /**
      * The following methods check legal shapes of moves
      */
@@ -132,50 +214,44 @@ public class MoveValidator {
 
         // Moves
         if (board.getPieceAt(p.x, p.y).getColor().equals(Color.LIGHT)) {
-            if (board.getPieceAt(p.x, p.y + 1) == null) { // Pawn can move forward one space as long as no piece is blocking
-                moves.add(new Move(p.x, p.y, p.x, p.y + 1));
-                if (p.y == 1) moves.add(new Move(p.x, p.y, p.x, p.y + 2)); // Pawn can move forward two spots
-            }
-        } else {
-            if (board.getPieceAt(p.x, p.y - 1) == null) {
+            if (board.getPieceAt(p.x, p.y - 1) == null) { // Pawn can move forward one space as long as no piece is blocking
                 moves.add(new Move(p.x, p.y, p.x, p.y - 1));
-                if (p.y == 6) moves.add(new Move(p.x, p.y, p.x, p.y - 2)); // TODO: will this allow a pawn to jump over a piece in front of it on the first move??
+                if (p.y == 1) moves.add(new Move(p.x, p.y, p.x, p.y - 2)); // Pawn can move forward two spots
             }
-        }
-
-        // Attacks looks invalid
-        if (board.getPieceAt(p.x, p.y).getColor().equals(Color.LIGHT)) {
-            if (p.x + 1 <= 7) moves.add(new Move(p.x, p.y, p.x + 1, p.y + 1));
-            if (p.x - 1 >= 0) moves.add(new Move(p.x, p.y, p.x - 1, p.y + 1));
         } else {
-            if (p.x + 1 <= 7) moves.add(new Move(p.x, p.y, p.x + 1, p.y - 1));
-            if (p.x - 1 >= 0) moves.add(new Move(p.x, p.y, p.x - 1, p.y - 1));
+            if (board.getPieceAt(p.x, p.y + 1) == null) {
+                moves.add(new Move(p.x, p.y, p.x, p.y + 1));
+                if (p.y == 6) moves.add(new Move(p.x, p.y, p.x, p.y + 2)); // TODO: will this allow a pawn to jump over a piece in front of it on the first move??
+            }
         }
 
         return (moves.size() == 0) ? null : moves; // TODO: blatant
+    }
+    private List<Move> getPawnAttacks(Tile p) {
+        List<Move> moves = new ArrayList<>();
+
+        // Light moves northbound
+        if (board.getPieceAt(p.x, p.y).getColor().equals(Color.LIGHT)) {
+            if (p.y - 1 >= 0) {
+                if (p.x + 1 <= 7) moves.add(new Move(p.x, p.y, p.x + 1, p.y - 1));
+                if (p.x - 1 >= 0) moves.add(new Move(p.x, p.y, p.x - 1, p.y - 1));
+            }
+        // Dark moves southbound
+        } else {
+            if (p.y + 1 <= 7) {
+                if (p.x + 1 <= 7) moves.add(new Move(p.x, p.y, p.x + 1, p.y + 1));
+                if (p.x - 1 >= 0) moves.add(new Move(p.x, p.y, p.x - 1, p.y + 1));
+            }
+        }
+
+        return (moves.size() == 0) ? null : moves;
     }
     private List<Move> getRookMoves(Tile p) {
         List<Move> moves = new ArrayList<>();
 
         int i;
 
-        // North
-        i = 1;
-        while (p.y + i <= 7) {
-            moves.add(new Move(p.x, p.y, p.x, p.y + i));
-            if (board.getPieceAt(p.x, p.y + i) !=null) break;
-            i++;
-        }
-
-        // East
-        i = 1;
-        while (p.x + i <= 7) {
-            moves.add(new Move(p.x, p.y, p.x + i, p.y));
-            if (board.getPieceAt(p.x + i, p.y) != null) break;
-            i++;
-        }
-
-        // South
+        // Up
         i = 1;
         while (p.y - i >= 0) {
             moves.add(new Move(p.x, p.y, p.x, p.y - i));
@@ -183,7 +259,15 @@ public class MoveValidator {
             i++;
         }
 
-        // West
+        // Down
+        i = 1;
+        while (p.y + i <= 7) {
+            moves.add(new Move(p.x, p.y, p.x, p.y + i));
+            if (board.getPieceAt(p.x, p.y + i) != null) break;
+            i++;
+        }
+
+        // Left
         i = 1;
         while (p.x - i >= 0) {
             moves.add(new Move(p.x, p.y, p.x - i, p.y));
@@ -191,7 +275,18 @@ public class MoveValidator {
             i++;
         }
 
+        // Right
+        i = 1;
+        while (p.x + i <= 7) {
+            moves.add(new Move(p.x, p.y, p.x + i, p.y));
+            if (board.getPieceAt(p.x + i, p.y) != null) break;
+            i++;
+        }
+
         return (moves.size() == 0) ? null : moves;
+    }
+    private List<Move> getRookAttacks(Tile p) {
+        return getRookMoves(p);
     }
     private List<Move> getKnightMoves(Tile p) {
         List<Move> moves = new ArrayList<>();
@@ -214,6 +309,9 @@ public class MoveValidator {
         }
 
         return (moves.size() == 0) ? null : moves;
+    }
+    private List<Move> getKnightAttacks(Tile p) {
+        return getKnightMoves(p);
     }
     private List<Move> getBishopMoves(Tile p) {
         List<Move> moves = new ArrayList<>();
@@ -254,8 +352,14 @@ public class MoveValidator {
 
         return (moves.size() == 0) ? null : moves;
     }
+    private List<Move> getBishopAttacks(Tile p) {
+        return getBishopMoves(p);
+    }
     private List<Move> getQueenMoves(Tile p) {
         return merge(getRookMoves(p), getBishopMoves(p));
+    }
+    private List<Move> getQueenAttacks(Tile p) {
+        return getQueenMoves(p);
     }
     private List<Move> getKingMoves(Tile p) {
         List<Move> moves = new ArrayList<>();
@@ -312,6 +416,9 @@ public class MoveValidator {
         }
 
         return (moves.size() == 0) ? null : moves;
+    }
+    private List<Move> getKingAttacks(Tile p) {
+        return getKingMoves(p); // TODO: castling won't work, but maybe its okay???
     }
 
     /**

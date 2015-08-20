@@ -24,9 +24,9 @@ public class Move {
         return end;
     }
 
-    public Piece getMover() {
-        return mover;
-    }
+//    public Piece getMover() {
+//        return mover;
+//    }
 
     public void execute(Piece[][] board) {
         int x1 = getStart().x;
@@ -38,8 +38,8 @@ public class Move {
 
         if(p != null) {
             mover = p;
-            board[x2][y2] = board[x1][y1];
-            board[x1][y1] = null;
+            board[y2][x2] = board[y1][x1];
+            board[y1][x1] = null;
         }
 
         // Castling
@@ -60,7 +60,8 @@ public class Move {
 
     @Override
     public String toString() {
-        return "Moving the " + mover.toStringTeam() + " from " + start.toString() + " to " + end.toString();
+        if (mover != null) return "Moving the " + mover.toStringTeam() + " from " + start.toString() + " to " + end.toString();
+        else return "Moving from " + start.toString() + " to " + end.toString();
     }
 
     @Override

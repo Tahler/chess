@@ -4,15 +4,20 @@ package edu.neumont.pro180.chess.core.model;
  * Simply a wrapper for an x and y value on the chess board.
  */
 public class Tile {
-    public final Integer x;
-    public final Integer y;
+    public final Integer x; // Column
+    public final Integer y; // Row
 
-    public Tile(Integer row, Integer column) throws IndexOutOfBoundsException {
-        if (row >= 0 && row < 8) this.y = row;
+    public Tile(Integer x, Integer y) throws IndexOutOfBoundsException {
+        if (x >= 0 && x < 8) this.x = x;
         else throw new IndexOutOfBoundsException("Cannot create a tile in that row!");
 
-        if (column >= 0 && column < 8) this.x = column;
+        if (y >= 0 && y < 8) this.y = y;
         else throw new IndexOutOfBoundsException("Cannot create a tile in that column!");
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf((char) (x + 97)).toUpperCase() + (8 - y);
     }
 
     @Override
@@ -32,10 +37,5 @@ public class Tile {
         int result = x != null ? x.hashCode() : 0;
         result = 31 * result + (y != null ? y.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf((char) (x + 97)).toUpperCase() + (8 - y);
     }
 }

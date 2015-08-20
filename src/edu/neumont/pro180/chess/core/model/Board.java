@@ -68,7 +68,7 @@ public class Board {
         Move lastMove = moveHistory.remove(moveHistory.size() - 1);   // remove from the history
         Move move = new Move(lastMove.getEnd(), lastMove.getStart()); // the opposite of the undone move
 
-        Piece mover = move.getMover();
+        Piece mover = getPieceAt(move.getEnd()); // Where the piece is after the fact
         if (mover.getType().equals(Type.KING)) {
             if (mover.getColor().equals(Color.LIGHT)) {
                 lightKingLocation = move.getEnd();
@@ -80,13 +80,17 @@ public class Board {
         move.execute(board);
     }
 
+    public Move getLastMove() {
+        return moveHistory.get(moveHistory.size() - 1);
+    }
+
     /**
      * Used by addMove and undoMove to switch piece positions on the board.
      * @param move The pre-validated move
      */
     private void executeMove(Move move) {
         // If king, move tracked king location
-        Piece mover = move.getMover();
+        Piece mover = getPieceAt(move.getStart());
         if (mover.getType().equals(Type.KING)) {
             if (mover.getColor().equals(Color.LIGHT)) {
                 lightKingLocation = move.getEnd();
@@ -103,7 +107,7 @@ public class Board {
     }
 
     public Piece getPieceAt(Integer x, Integer y) {
-        if (x >= 0 && x < 8 && y >= 0 && y < 8) return board[x][y];
+        if (x >= 0 && x < 8 && y >= 0 && y < 8) return board[y][x];
         else throw new IllegalArgumentException("The tile (" + x + ", " + y + ") is not on the board!");
     }
 
@@ -142,13 +146,14 @@ public class Board {
             board += (8 - i) + " "; // "8 "
             for (int j = 0; j < this.board[0].length; j++) {
                 Piece p = this.board[i][j];
-                board += "| " + ((p == null) ? " - " : p.toChar()) + " ";
+                board += "| " + ((p == null) ? "-" : p.toCharTeam()) + " ";
             }
             board += "|" + "\n";
             board += "  ---------------------------------" + "\n";
         }
 
         return board;
+//        return board.substring(0, board.length() - 1); // TODO: this only removes the \n
     }
 
     public Boolean isOver() {

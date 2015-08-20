@@ -4,6 +4,7 @@ import edu.neumont.pro180.chess.Main;
 import edu.neumont.pro180.chess.core.algorithms.MoveValidator;
 import edu.neumont.pro180.chess.core.model.Board;
 import edu.neumont.pro180.chess.core.model.Move;
+import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.io.MoveReader;
 
 import java.text.ParseException;
@@ -28,9 +29,11 @@ public class Engine {
     }
 
     public void play() {
+        System.out.println(board);
         do {
             Move move;
             try {
+                System.out.print(">");
                 move = moveReader.readLine(); // parse exception throws to catch
                 if (validator.isValid(move)) {
                     board.makeMove(move);
