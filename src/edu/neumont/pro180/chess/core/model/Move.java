@@ -24,38 +24,8 @@ public class Move {
         return end;
     }
 
-//    public Piece getMover() {
-//        return mover;
-//    }
-
-    public void execute(Piece[][] board) {
-        int x1 = getStart().x;
-        int y1 = getStart().y;
-        int x2 = getEnd().x;
-        int y2 = getEnd().y;
-
-        Piece p = board[y1][x1];
-
-        if(p != null) {
-            mover = p;
-            board[y2][x2] = board[y1][x1];
-            board[y1][x1] = null;
-        }
-
-        // Castling
-        Move castle = null;
-        if (y1 == 0 && x1 == 4 && x2 == 6) { // white short castle
-            castle = new Move(7, 0, 5, 0);
-        } else if (y1 == 0 && x1 == 4 && x2 == 2) { //white long castle
-            castle = new Move(0, 0, 3, 0);
-        } else if (y1 == 7 && x1 == 4 && x2 == 6) { //black short castle
-            castle = new Move(7, 7, 5, 7);
-        } else if (y1 == 7 && x1 == 4 && x2 == 2) { //black long castle
-            castle = new Move(0, 7, 3, 7);
-        }
-        if (castle != null) {
-            castle.execute(board); // recurse, moving the rook now
-        }
+    public void setMover(Piece mover) {
+        this.mover = mover;
     }
 
     @Override
