@@ -152,8 +152,8 @@ public abstract class AbstractBoard {
             board += "  ---------------------------------" + "\n";
         }
 
-        return board;
-//        return board.substring(0, board.length() - 1); // TODO: this only removes the \n
+//        return board;
+        return board.substring(0, board.length() - 1); // TODO: this only removes the \n
     }
 
 }
