@@ -7,10 +7,6 @@ public enum Color {
     LIGHT,
     DARK;
 
-    public Color swap() {
-        return swap(this);
-    }
-
     public static Color swap(Color color) {
         if (color.equals(Color.LIGHT)) {
             return Color.DARK;

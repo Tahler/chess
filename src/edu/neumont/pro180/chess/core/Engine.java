@@ -37,15 +37,16 @@ public class Engine {
                 move = moveReader.readLine(); // parse exception throws to catch
                 if (validator.isValid(move)) {
                     board.makeMove(move);
-                    if (isVerbose) {
-                        System.out.println(move); // print the move and board if verbose
+                    if (isVerbose) { // print the move and board if verbose
+                        System.out.println(move);
                         System.out.println(board);
                     }
                 } else {
                     System.out.println("That move is invalid.");
                 }
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
+//                e.printStackTrace();
             }
         } while (!board.isOver());
 

@@ -38,14 +38,14 @@ public class Board {
         board[0][2] = board[0][5] = new Piece(Type.BISHOP, Color.DARK);
         board[0][3] = new Piece(Type.QUEEN, Color.DARK);
         board[0][4] = new Piece(Type.KING, Color.DARK);
-        darkKingLocation = new Tile(0, 4);
+        darkKingLocation = new Tile(4, 0);
 
         board[7][0] = board[7][7] = new Piece(Type.ROOK, Color.LIGHT);
         board[7][1] = board[7][6] = new Piece(Type.KNIGHT, Color.LIGHT);
         board[7][2] = board[7][5] = new Piece(Type.BISHOP, Color.LIGHT);
         board[7][3] = new Piece(Type.QUEEN, Color.LIGHT);
         board[7][4] = new Piece(Type.KING, Color.LIGHT);
-        lightKingLocation = new Tile(7, 4);
+        lightKingLocation = new Tile(4, 7);
 
         currentTurn = Color.LIGHT;
     }
@@ -58,7 +58,6 @@ public class Board {
     public void makeMove(Move move) {
         executeMove(move);
         moveHistory.add(move);
-        currentTurn.swap(); // Switch who's turn it is
     }
 
     /**
@@ -67,8 +66,8 @@ public class Board {
     public void undoMove() {
         Move lastMove = moveHistory.remove(moveHistory.size() - 1);   // remove from the history
         Move move = new Move(lastMove.getEnd(), lastMove.getStart()); // the opposite of the undone move
+        Piece mover = getPieceAt(lastMove.getEnd()); // Where the piece is after the fact
 
-        Piece mover = getPieceAt(move.getEnd()); // Where the piece is after the fact
         if (mover.getType().equals(Type.KING)) {
             if (mover.getColor().equals(Color.LIGHT)) {
                 lightKingLocation = move.getEnd();
@@ -98,7 +97,7 @@ public class Board {
                 darkKingLocation = move.getEnd();
             }
         }
-
+        currentTurn = Color.swap(currentTurn);
         move.execute(board);
     }
 
