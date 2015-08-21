@@ -1,5 +1,6 @@
 package edu.neumont.pro180.chess.core.algorithms;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.neumont.pro180.chess.core.model.*;
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 
@@ -24,12 +25,13 @@ public class MoveValidator {
         Color color = mover.getColor();
         if (!color.equals(((Board) board).getCurrentTurnColor())) throw new IllegalMoveException("It is not " + color + "'s turn!");
 
+        if (wouldPlaceKingInCheck(move)) throw new IllegalMoveException("That move would place your king in check!");
+
         // 3. That must be a possible move
         if (!getAllValidMoves(move.getStart()).contains(move)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move to " + move.getEnd() + "!");
 
         // 4. The move must not put the king in check
         // TODO: Move this check into getAllValidMoves when implementing the gui
-        if (wouldPlaceKingInCheck(move)) throw new IllegalMoveException("That move would place your king in check!");
 
         // TODO: if krebs complains about specificity of illegal moves, create many methods that would delegate more contains to the getXMoves()
 //        return true;
@@ -396,6 +398,11 @@ public class MoveValidator {
         this.board = realBoard; // Switch back
         return isAttacked; // Return the result
     }
+
+    public Boolean isInCheck() {
+        return isAttacked(board.lightKingLocation, Color.LIGHT) ||
+                isAttacked(board.darkKingLocation, Color.DARK);
+    }
     /**
      * TODO: this might be easier if:
      * 1. Iterate through the 8 possible squares the king can move to.
@@ -410,9 +417,6 @@ public class MoveValidator {
                 potentialAttacker = board.getPieceAt(i, j);
                 // If there is a potential attacker of the opposite color, we must investigate
                 if (potentialAttacker != null && !potentialAttacker.getColor().equals(victimColor)) {
-                    if (potentialAttacker.getType().equals(Piece.Type.QUEEN)){
-                        System.out.println("true");
-                    }
                     List<Move> attacks = getValidAttacks(new Tile(i, j));
                     for (Move move : attacks) {
                         if (move.getEnd().equals(potentiallyAttackedLocation)) {

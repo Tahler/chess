@@ -52,6 +52,10 @@ public class Move {
         return result;
     }
 
+    public Piece getMover() {
+        return mover;
+    }
+
     //    @Override
 //    public Iterator<Tile> iterator() {
 //        Board board = Board.getInstance();
