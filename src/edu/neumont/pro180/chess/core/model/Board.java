@@ -57,7 +57,7 @@ public class Board extends AbstractBoard {
     }
 
     public Color getResult() {
-        return Color.LIGHT;
+        return null;
     }
 
     public List<Move> getMoveHistory() {

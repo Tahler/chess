@@ -13,42 +13,23 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) {
         MoveReader mr = null;
-        Flag flag = null;
+        Flag flag = Flag.NONE;
 
-        try {
-            if (args.length == 0) {
-                flag = Flag.VERBOSE;
-                mr = new UserMoveReader();
-            }
-            else if (args.length == 1) {
-                // Verbose user input
-                if (args[0].toLowerCase().equals("v")) {
-                    flag = Flag.VERBOSE;
-                    mr = new UserMoveReader();
-                // Non-verbose file input
-                } else {
-                    flag = Flag.NONE;
-                    mr = new FileMoveReader(args[0].trim());
-
-                }
-            } else { // args.length >= 2
-                // Verbose file input, v first
-                if (args[0].toLowerCase().equals("v")) {
-                    flag = Flag.VERBOSE;
-                    mr = new FileMoveReader(args[0].trim());
-                // Verbose file input, file first
-                } else if (args[1].toLowerCase().equals("v")) {
-                    flag = Flag.VERBOSE;
-                    mr = new FileMoveReader(args[0].trim());
+        if (args.length == 0) {
+            flag = Flag.VERBOSE;
+            mr = new UserMoveReader();
+        } else {
+            for (String s : args) {
+                if (s.toLowerCase().equals("v")) flag = Flag.VERBOSE;
+                else try {
+                    mr = new FileMoveReader(s.trim());
+                } catch (FileNotFoundException e) {
+                    System.out.println("File \"" + args[0] + "\" does not exist.");
                 }
             }
-
-            new Engine(mr, flag).play();
-        } catch (FileNotFoundException e) {
-            System.out.println("File \"" + args[0] + "\" does not exist.");
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("CLI syntax incorrect");
         }
+
+        new Engine(mr, flag).play();
     }
 
 //    public static void main(String[] args) {

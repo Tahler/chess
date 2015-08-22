@@ -25,7 +25,7 @@ public class MoveValidator {
         Color color = mover.getColor();
         if (!color.equals(((Board) board).getCurrentTurnColor())) throw new IllegalMoveException("It is not " + color + "'s turn!");
 
-        if (wouldPlaceKingInCheck(move)) throw new IllegalMoveException("That move would place your king in check!");
+        if (wouldPlaceKingInCheck(move)) throw new IllegalMoveException("That move would leave your king in check!");
 
         // 3. That must be a possible move
         if (!getAllValidMoves(move.getStart()).contains(move)) throw new IllegalMoveException("The " + mover.toStringTeam() + " cannot move to " + move.getEnd() + "!");

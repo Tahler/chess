@@ -30,12 +30,13 @@ public class MoveReader implements AutoCloseable {
     public Move readLine() throws ParseException {
         String line = null;
         try {
-            line = reader.readLine().toLowerCase().trim();
+            line = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (line == null) return null;
+        if (line != null) line = line.toLowerCase().trim();
+        else return null;
 
         return parseLine(line);
     }

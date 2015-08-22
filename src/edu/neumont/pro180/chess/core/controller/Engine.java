@@ -34,6 +34,7 @@ public class Engine {
             try {
                 System.out.print(">");
                 move = moveReader.readLine(); // parse exception throws to catch
+                if (move == null) break;
                 validator.validate(move);
                 board.makeMove(move);
                 Color c = move.getMover().getColor();
@@ -49,7 +50,7 @@ public class Engine {
             }
         } while (!board.isOver());
 
-        System.out.println("The winner is " + board.getResult());
-        System.out.println(board);
+//        System.out.println("The winner is " + board.getResult());
+//        System.out.println(board);
     }
 }
