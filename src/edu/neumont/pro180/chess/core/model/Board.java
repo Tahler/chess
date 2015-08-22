@@ -29,6 +29,7 @@ public class Board extends AbstractBoard {
      */
     public void makeMove(Move move) {
         super.executeMove(move);
+        move.getMover().move(); // Set its boolean hasMoved to true
         switchTurn();
         moveHistory.add(move);
     }
