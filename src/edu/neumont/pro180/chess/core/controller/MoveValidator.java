@@ -403,7 +403,7 @@ public class MoveValidator {
 
     public Boolean isInCheck() {
         return isAttacked(board.lightKingLocation, Color.LIGHT) ||
-                isAttacked(board.darkKingLocation, Color.DARK);
+               isAttacked(board.darkKingLocation, Color.DARK);
     }
     /**
      * TODO: this might be easier if:
