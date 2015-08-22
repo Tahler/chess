@@ -15,34 +15,23 @@ public abstract class AbstractBoard {
         // Initialize tiles
         pieces = new Piece[8][8];
 
-//        // Initialize pieces
-//        for (int i = 0; i < pieces.length; i++) {
-//            pieces[1][i] = new Piece(Type.PAWN, Color.DARK);
-//            pieces[6][i] = new Piece(Type.PAWN, Color.LIGHT);
-//        }
-//
-//        pieces[0][0] = pieces[0][7] = new Piece(Type.ROOK, Color.DARK);
-//        pieces[0][1] = pieces[0][6] = new Piece(Type.KNIGHT, Color.DARK);
-//        pieces[0][2] = pieces[0][5] = new Piece(Type.BISHOP, Color.DARK);
-//        pieces[0][3] = new Piece(Type.QUEEN, Color.DARK);
-//        pieces[0][4] = new Piece(Type.KING, Color.DARK);
-//        darkKingLocation = new Tile(4, 0);
-//
-//        pieces[7][0] = pieces[7][7] = new Piece(Type.ROOK, Color.LIGHT);
-//        pieces[7][1] = pieces[7][6] = new Piece(Type.KNIGHT, Color.LIGHT);
-//        pieces[7][2] = pieces[7][5] = new Piece(Type.BISHOP, Color.LIGHT);
-//        pieces[7][3] = new Piece(Type.QUEEN, Color.LIGHT);
-//        pieces[7][4] = new Piece(Type.KING, Color.LIGHT);
-//        lightKingLocation = new Tile(4, 7);
-
         // Initialize pieces
+        for (int i = 0; i < pieces.length; i++) {
+            pieces[1][i] = new Piece(Type.PAWN, Color.DARK);
+            pieces[6][i] = new Piece(Type.PAWN, Color.LIGHT);
+        }
 
-        pieces[1][4] = new Piece(Type.QUEEN, Color.DARK);
+        pieces[0][0] = pieces[0][7] = new Piece(Type.ROOK, Color.DARK);
+        pieces[0][1] = pieces[0][6] = new Piece(Type.KNIGHT, Color.DARK);
+        pieces[0][2] = pieces[0][5] = new Piece(Type.BISHOP, Color.DARK);
+        pieces[0][3] = new Piece(Type.QUEEN, Color.DARK);
         pieces[0][4] = new Piece(Type.KING, Color.DARK);
         darkKingLocation = new Tile(4, 0);
 
         pieces[7][0] = pieces[7][7] = new Piece(Type.ROOK, Color.LIGHT);
-        pieces[6][4] = new Piece(Type.QUEEN, Color.LIGHT);
+        pieces[7][1] = pieces[7][6] = new Piece(Type.KNIGHT, Color.LIGHT);
+        pieces[7][2] = pieces[7][5] = new Piece(Type.BISHOP, Color.LIGHT);
+        pieces[7][3] = new Piece(Type.QUEEN, Color.LIGHT);
         pieces[7][4] = new Piece(Type.KING, Color.LIGHT);
         lightKingLocation = new Tile(4, 7);
     }
