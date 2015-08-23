@@ -32,26 +32,6 @@ public class Main {
         new Engine(mr, flag).play();
     }
 
-//    public static void main(String[] args) {
-//        Board b = new Board();
-//        MoveValidator mv = new MoveValidator(b);
-//        System.out.println(b);
-//
-//        Move myMove = new Move(4, 6, 3, 6);
-//
-//        System.out.println(myMove + " would " + (!mv.wouldPlaceKingInCheck(myMove) ? "not " : "") + "put the king in check");
-//
-////        try {
-////            mv.validate(myMove);
-//            b.makeMove(myMove);
-////        } catch (IllegalMoveException e) {
-////            e.printStackTrace();
-////        }
-//
-//        System.out.println(b);
-//        System.out.println(mv.isAttacked(b.lightKingLocation, Color.LIGHT) ? "is in check" : "is not in check");
-//    }
-
     public enum Flag {
         VERBOSE,
         NONE

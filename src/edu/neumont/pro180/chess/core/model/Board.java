@@ -51,15 +51,6 @@ public class Board extends AbstractBoard {
         }
     }
 
-    public Boolean isOver() {
-        // TODO: implement, probably in abstract board
-        return false;
-    }
-
-    public Color getResult() {
-        return null;
-    }
-
     public List<Move> getMoveHistory() {
         return moveHistory;
     }

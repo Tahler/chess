@@ -28,7 +28,7 @@ public class Engine {
     }
 
     public void play() {
-        System.out.println(board);
+        if (isVerbose) System.out.println(board);
         do {
             Move move;
             try {
@@ -48,9 +48,9 @@ public class Engine {
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-        } while (!board.isOver());
+        } while (!validator.isOver());
 
-//        System.out.println("The winner is " + board.getResult());
-//        System.out.println(board);
+        Color result = validator.getResult();
+        System.out.println((result == null) ? "Stalemate!" : "The winner is " + result + "!");
     }
 }
