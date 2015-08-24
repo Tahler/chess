@@ -399,8 +399,6 @@ public class MoveValidator {
         // Make the move on the imaginary board, and determine if the move would end with the tile attacked
         Color victimColor = board.getPieceAt(potentialMove.getStart()).getColor();
         board.executeMove(potentialMove);
-        System.out.println("Buffer:" + board);
-        System.out.println("Your color" + victimColor);
         boolean isAttacked = isAttacked(potentiallyAttackedLocation, victimColor);
 
         this.board = realBoard; // Switch back
@@ -415,6 +413,10 @@ public class MoveValidator {
      * 3. Collect the moves to the squares where the above check does not come across any enemy pieces.
      */
     public Boolean isAttacked(AbstractBoard board, Tile potentiallyAttackedLocation, Color victimColor) {
+
+        System.out.println("Buffer: " + board);
+        System.out.println("Your color: " + victimColor);
+
         Piece potentialAttacker;
         // If any possible next move on the board
         for (int i = 0; i < 8; i++) {
