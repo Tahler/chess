@@ -1,7 +1,5 @@
-package edu.neumont.pro180.chess.core;
+package edu.neumont.pro180.chess.core.controller;
 
-import edu.neumont.pro180.chess.Main;
-import edu.neumont.pro180.chess.core.algorithms.MoveValidator;
 import edu.neumont.pro180.chess.core.model.Board;
 import edu.neumont.pro180.chess.core.model.Color;
 import edu.neumont.pro180.chess.core.model.Move;
@@ -30,12 +28,13 @@ public class Engine {
     }
 
     public void play() {
-        System.out.println(board);
+        if (isVerbose) System.out.println(board);
         do {
             Move move;
             try {
                 System.out.print(">");
                 move = moveReader.readLine(); // parse exception throws to catch
+                if (move == null) break;
                 validator.validate(move);
                 board.makeMove(move);
                 Color c = move.getMover().getColor();
@@ -49,9 +48,9 @@ public class Engine {
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-        } while (!board.isOver());
+        } while (!validator.isOver());
 
-        System.out.println("The winner is " + board.getResult());
-        System.out.println(board);
+        Color result = validator.getResult();
+        System.out.println((result == null) ? "Stalemate!" : "The winner is " + result + "!");
     }
 }

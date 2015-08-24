@@ -1,7 +1,13 @@
-a2a4
-a4a6
-b7b6
+d2d4
+d7d5
+e2e4
+e7e5
+f1b5
 c7c5
+<<<<<<< HEAD
 b2b3
 b6b5
 a4b5
+=======
+c7c6
+>>>>>>> 8b083b83db911852b8d6ed1590f3c5ac39ff6b05

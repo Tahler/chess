@@ -1,58 +1,11 @@
 package edu.neumont.pro180.chess.core.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * Created by Tyler Berry on 8/7/2015.
  */
 public class Piece {
-
-    /*
-    :::movement:::
-
-    // bishop
-     return Math.abs(end.getY() - start.getY()) == Math.abs(end.getX() - start.getX());
-
-    // rook
-     return start.getY() == end.getY() || start.getX() == end.getX();
-
-    // queen: Rook or Bishop move
-     return (start.getY() == end.getY() || start.getX() == end.getX())
-     || (Math.abs(end.getY() - start.getY()) == Math.abs(end.getX() - start.getX()));
-
-     // pawn
-         Integer deltaY = end.getY() - start.getY();
-         Integer deltaYLimit = 1;
-
-         // Move direction is based on color
-         if (getColor().equals(Color.LIGHT)) {
-         if (deltaY >= 0) return false;
-         if (start.getY() == Board.LIGHT_PAWN_ROW) deltaYLimit = 2; // Pawn has not moved yet, can move two spaces
-         } else if (getColor().equals(Color.DARK)) {
-         if (deltaY <= 0) return false;
-         if (start.getY() == Board.DARK_PAWN_ROW) deltaYLimit = 2;
-         }
-         // Now that direction is valid, verify distance.
-         deltaY = Math.abs(deltaY);
-         if (deltaY > deltaYLimit) return false;
-
-         Integer deltaX = Math.abs(start.getX() - end.getX()); // 0 if moving, 1 if capturing
-         if (deltaX == 0) { // Moving forward
-         if (end.getPiece() != null) return false; // Pawn cannot capture pieces in front of itself
-         } else if (deltaX == 1) { // Capturing
-         if (end.getPiece() == null) return false; // Pawn cannot move diagonally if not capturing
-         if (deltaY != 1) return false; // Pawn cannot move two spaces and capture like a knight
-         } else return false; // Pawns can never move to the side
-
-         return true;
-
-        // king
-         return Math.abs(start.getY() - end.getY()) <= 1
-         && Math.abs(start.getX() - end.getX()) <= 1;
-
-        // knight
-        return (Math.abs(start.getY() - end.getY()) <= 2 && Math.abs(start.getY() - end.getY()) <= 2)
-         && !((start.getY() == end.getY() || start.getX() == end.getX())
-         || (Math.abs(end.getY() - start.getY()) == Math.abs(end.getX() - start.getX())));
-     */
 
     public enum Type {
         PAWN,
@@ -65,10 +18,12 @@ public class Piece {
 
     private final Color color;
     private Type type;
+    private Boolean hasMoved;
 
     public Piece(Type type, Color color) {
         this.type = type;
         this.color = color;
+        this.hasMoved = false;
     }
 
     public Color getColor() {
@@ -83,6 +38,13 @@ public class Piece {
         this.type = type;
     }
 
+    public Boolean hasMoved() {
+        return hasMoved;
+    }
+
+    public void move() {
+        this.hasMoved = true;
+    }
     /**
      * @return A string representation of this piece, not acknowledging color.
      */

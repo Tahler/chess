@@ -29,6 +29,7 @@ public class Board extends AbstractBoard {
      */
     public void makeMove(Move move) {
         super.executeMove(move);
+        move.getMover().move(); // Set its boolean hasMoved to true
         switchTurn();
         moveHistory.add(move);
     }
@@ -48,15 +49,6 @@ public class Board extends AbstractBoard {
         } else {
             currentTurnColor = Color.LIGHT;
         }
-    }
-
-    public Boolean isOver() {
-        // TODO: implement, probably in abstract board
-        return false;
-    }
-
-    public Color getResult() {
-        return Color.LIGHT;
     }
 
     public List<Move> getMoveHistory() {
