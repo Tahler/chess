@@ -46,7 +46,9 @@ public class MoveValidator {
 
         moves = merge(getValidMoves(p), getValidAttacks(p));
         // Filter by checking if the king would end up in check : TODO: this doesn't work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        for (int i = 0; i < moves.size(); i++) if (wouldPlaceKingInCheck(moves.get(i))) moves.remove(i);
+        for (int i = 0; i < moves.size(); i++) {
+            if (wouldPlaceKingInCheck(moves.get(i))) moves.remove(i);
+        }
 
         return moves;
     }
@@ -370,12 +372,16 @@ public class MoveValidator {
     }
 
     public Boolean wouldPlaceKingInCheck(Move potentialMove) {
+        System.out.println("Checking check: " + potentialMove);
+
         Piece mover = board.getPieceAt(potentialMove.getStart());
         Color color = mover.getColor();
 
         Tile kingLocation;
         if (mover.getType().equals(Piece.Type.KING)) kingLocation = potentialMove.getEnd(); // If moving the king, check the end location
         else kingLocation = (color.equals(Color.LIGHT)) ? board.lightKingLocation : board.darkKingLocation; // otherwise check the king's current location
+
+        System.out.println(kingLocation);
 
         return wouldBeAttacked(potentialMove, kingLocation);
     }
@@ -393,9 +399,12 @@ public class MoveValidator {
         // Make the move on the imaginary board, and determine if the move would end with the tile attacked
         Color victimColor = board.getPieceAt(potentialMove.getStart()).getColor();
         board.executeMove(potentialMove);
+        System.out.println("Buffer:" + board);
+        System.out.println("Your color" + victimColor);
         boolean isAttacked = isAttacked(potentiallyAttackedLocation, victimColor);
 
         this.board = realBoard; // Switch back
+        System.out.println("REAL BOARD: " + board);
         return isAttacked; // Return the result
     }
 
@@ -447,7 +456,10 @@ public class MoveValidator {
             for (int j = 0; j < 8; j++) {
                 Piece piece = board.getPieceAt(i, j);
                 if (piece != null) {
-                    if (getAllValidMoves(new Tile(i, j)).size() != 0) return false;
+                    if (getAllValidMoves(new Tile(i, j)).size() != 0) {
+                        for (Move m : getAllValidMoves(new Tile(i, j))) System.out.println(m);
+                        return false;
+                    }
                 }
             }
         }

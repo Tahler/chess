@@ -63,7 +63,7 @@ public abstract class AbstractBoard {
 
     public void executeMove(Move move) {
         Piece mover = getPieceAt(move.getStart());
-        move.setMover(mover); // TODO: remove this in the gui
+        move.setMover(mover); // I don't like this. but sets the mover for the move (helpful with the move's toString())
         if (mover.getType().equals(Piece.Type.KING)) {
             if (mover.getColor().equals(Color.LIGHT)) {
                 lightKingLocation = move.getEnd();

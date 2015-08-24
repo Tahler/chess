@@ -25,11 +25,17 @@ public class Engine {
         this.validator = new MoveValidator(board);
         this.moveReader = moveReader;
         this.isVerbose = flag.equals(Main.Flag.VERBOSE);
+
+        board.makeMove(new Move(4, 6, 4, 4));
+        board.makeMove(new Move(5, 1, 5, 3));
+        board.makeMove(new Move(4, 4, 5, 3));
+        board.makeMove(new Move(6, 1, 6, 3));
+//        board.makeMove(new Move(3, 7, 7, 3));
     }
 
     public void play() {
         if (isVerbose) System.out.println(board);
-        do {
+        while (!validator.isOver()) {
             Move move;
             try {
                 System.out.print(">");
@@ -48,7 +54,7 @@ public class Engine {
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
-        } while (!validator.isOver());
+        }
 
         Color result = validator.getResult();
         System.out.println((result == null) ? "Stalemate!" : "The winner is " + result + "!");
