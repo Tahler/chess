@@ -53,8 +53,6 @@ public class MoveValidator {
             }
         }
 
-        for (Move m : moves) System.out.println(m);
-
         return moves;
     }
 

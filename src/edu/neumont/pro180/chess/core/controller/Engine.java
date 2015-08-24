@@ -46,7 +46,7 @@ public class Engine {
                 if (isVerbose) { // print the move and board if verbose
                     System.out.println(move);
                     System.out.println(board);
-                    if (validator.isInCheck()) System.out.println("Check!");
+                    if (validator.isInCheck() && !validator.isOver()) System.out.println("Check!");
                 }
             } catch (IllegalMoveException e) {
                 System.out.println(e.getMessage());
