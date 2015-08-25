@@ -6,8 +6,8 @@ import edu.neumont.pro180.chess.core.model.Move;
 import edu.neumont.pro180.chess.core.view.ConsoleIO;
 import edu.neumont.pro180.chess.core.view.View;
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import edu.neumont.pro180.chess.io.MoveReader;
-import edu.neumont.pro180.chess.io.UserMoveReader;
+import edu.neumont.pro180.chess.core.view.io.MoveReader;
+import edu.neumont.pro180.chess.core.view.io.UserMoveReader;
 
 import java.text.ParseException;
 

@@ -1,4 +1,4 @@
-package edu.neumont.pro180.chess.io;
+package edu.neumont.pro180.chess.core.view.io;
 
 import edu.neumont.pro180.chess.core.model.Move;
 
