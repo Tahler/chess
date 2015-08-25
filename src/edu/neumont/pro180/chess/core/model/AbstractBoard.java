@@ -82,13 +82,13 @@ public abstract class AbstractBoard {
 
         // Castling
         Move castle = null;
-        // Light short castle
-        if (y1 == 0 && x1 == 4 && x2 == 6) castle = new Move(7, 0, 5, 0);
-        // Light long castle
-        else if (y1 == 0 && x1 == 4 && x2 == 2) castle = new Move(0, 0, 3, 0);
         // Dark short castle
-        else if (y1 == 7 && x1 == 4 && x2 == 6) castle = new Move(7, 7, 5, 7);
+        if (y1 == 0 && x1 == 4 && x2 == 6) castle = new Move(7, 0, 5, 0);
         // Dark long castle
+        else if (y1 == 0 && x1 == 4 && x2 == 2) castle = new Move(0, 0, 3, 0);
+        // Light short castle
+        else if (y1 == 7 && x1 == 4 && x2 == 6) castle = new Move(7, 7, 5, 7);
+        // Light long castle
         else if (y1 == 7 && x1 == 4 && x2 == 2) castle = new Move(0, 7, 3, 7);
 
         if (castle != null) {
@@ -96,6 +96,13 @@ public abstract class AbstractBoard {
         }
 
         // Pawn promotion
+        if (mover.getType().equals(Type.PAWN)) {
+            if (mover.getColor().equals(Color.LIGHT)) {
+                if (move.getEnd().y == 0) mover.setType(Type.QUEEN);
+            } else {
+                if (move.getEnd().y == 7) mover.setType(Type.QUEEN);
+            }
+        }
     }
 
     public Piece[][] getPieces() {
