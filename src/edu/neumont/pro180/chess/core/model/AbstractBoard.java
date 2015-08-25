@@ -94,6 +94,8 @@ public abstract class AbstractBoard {
         if (castle != null) {
             executeMove(castle); // recurse, moving the rook now
         }
+
+        // Pawn promotion
     }
 
     public Piece[][] getPieces() {
