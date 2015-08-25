@@ -3,8 +3,11 @@ package edu.neumont.pro180.chess.core.controller;
 import edu.neumont.pro180.chess.core.model.Board;
 import edu.neumont.pro180.chess.core.model.Color;
 import edu.neumont.pro180.chess.core.model.Move;
+import edu.neumont.pro180.chess.core.view.ConsoleIO;
+import edu.neumont.pro180.chess.core.view.View;
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
 import edu.neumont.pro180.chess.io.MoveReader;
+import edu.neumont.pro180.chess.io.UserMoveReader;
 
 import java.text.ParseException;
 
@@ -18,13 +21,13 @@ public class Engine {
     private final Board board;
     private final MoveValidator validator;
     private final MoveReader moveReader; // TODO: consider wrapping this in some view class, take souts and put them in there
-    private final Boolean isVerbose;
+    private final View view;
 
-    public Engine(MoveReader moveReader, Main.Flag flag) {
+    public Engine() {
         this.board = new Board();
         this.validator = new MoveValidator(board);
-        this.moveReader = moveReader;
-        this.isVerbose = flag.equals(Main.Flag.VERBOSE);
+        this.moveReader = new UserMoveReader();
+        this.view = new ConsoleIO();
 
         board.makeMove(new Move(4, 6, 4, 4));
         board.makeMove(new Move(5, 1, 5, 3));
@@ -34,28 +37,26 @@ public class Engine {
     }
 
     public void play() {
-        if (isVerbose) System.out.println(board);
+        view.print(board);
         do {
             Move move;
             try {
-                System.out.print(">");
+                view.print(">");
                 move = moveReader.readLine(); // parse exception throws to catch
                 if (move == null) break;
                 validator.validate(move);
                 board.makeMove(move);
-                if (isVerbose) { // print the move and board if verbose
-                    System.out.println(move);
-                    System.out.println(board);
-                    if (validator.isInCheck() && !validator.isOver()) System.out.println("Check!");
-                }
+                    view.print(move.toString());
+                    if (validator.isInCheck() && !validator.isOver()) view.print("Check!");
+                    view.print(board);
             } catch (IllegalMoveException e) {
-                System.out.println(e.getMessage());
+                view.print(e.getMessage());
             } catch (ParseException e) {
-                System.out.println(e.getMessage());
+                view.print(e.getMessage());
             }
         } while (!validator.isOver());
 
         Color result = validator.getResult();
-        System.out.println((result == null) ? "Stalemate!" : "Checkmate! The winner is " + result + "!");
+        view.print((result == null) ? "Stalemate!" : "Checkmate! The winner is " + result + "!");
     }
 }
