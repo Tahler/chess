@@ -6,9 +6,6 @@ import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Tyler Berry on 8/7/2015.
- */
 public class MoveParser {
     private static Pattern movementPattern = Pattern.compile("([a-h])([1-8])([a-h])([1-8])");
 

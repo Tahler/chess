@@ -2,9 +2,6 @@ package edu.neumont.pro180.chess.core.model;
 
 import edu.neumont.pro180.chess.core.model.Piece.Type;
 
-/**
- * Created by Tyler Berry on 8/21/2015.
- */
 public abstract class AbstractBoard {
     private Piece[][] pieces;
 

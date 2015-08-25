@@ -5,9 +5,6 @@ import edu.neumont.pro180.chess.exception.IllegalMoveException;
 
 import java.util.*;
 
-/**
- * Created by Tyler Berry on 8/18/2015.
- */
 public class MoveValidator {
     public AbstractBoard board;
 

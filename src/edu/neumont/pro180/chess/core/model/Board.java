@@ -5,9 +5,6 @@ import java.util.List;
 
 import edu.neumont.pro180.chess.core.model.Piece.Type;
 
-/**
- * Created by Tyler Berry on 8/7/2015.
- */
 public class Board extends AbstractBoard {
     // The color of the player whose turn it is
     private Color currentTurnColor;
