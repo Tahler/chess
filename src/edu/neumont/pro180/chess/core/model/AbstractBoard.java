@@ -91,15 +91,6 @@ public abstract class AbstractBoard {
         if (castle != null) {
             executeMove(castle); // recurse, moving the rook now
         }
-
-        // Pawn promotion
-        if (mover.getType().equals(Type.PAWN)) {
-            if (mover.getColor().equals(Color.LIGHT)) {
-                if (move.getEnd().y == 0) mover.setType(Type.QUEEN);
-            } else {
-                if (move.getEnd().y == 7) mover.setType(Type.QUEEN);
-            }
-        }
     }
 
     public Piece[][] getPieces() {
