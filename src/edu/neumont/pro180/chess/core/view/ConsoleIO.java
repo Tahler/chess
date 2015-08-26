@@ -44,6 +44,7 @@ public class ConsoleIO implements View {
                     case "Q":
                         return Piece.Type.QUEEN;
                     case "KNIGHT":
+                    case "N":
                     case "K":
                         return Piece.Type.KNIGHT;
                     case "BISHOP":
