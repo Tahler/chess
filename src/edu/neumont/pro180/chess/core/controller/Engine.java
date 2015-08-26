@@ -7,8 +7,6 @@ import edu.neumont.pro180.chess.core.model.Piece;
 import edu.neumont.pro180.chess.core.view.ConsoleIO;
 import edu.neumont.pro180.chess.core.view.View;
 import edu.neumont.pro180.chess.exception.IllegalMoveException;
-import edu.neumont.pro180.chess.core.view.io.MoveReader;
-import edu.neumont.pro180.chess.core.view.io.UserMoveReader;
 
 import java.text.ParseException;
 
@@ -20,13 +18,11 @@ import java.text.ParseException;
 public class Engine {
     private final Board board;
     private final MoveValidator validator;
-    private final MoveReader moveReader;
     private final View view;
 
     public Engine() {
         this.board = new Board();
         this.validator = new MoveValidator(board);
-        this.moveReader = new UserMoveReader();
         this.view = new ConsoleIO();
     }
 
@@ -35,8 +31,7 @@ public class Engine {
         do {
             Move move;
             try {
-                view.print(">");
-                move = moveReader.readLine(); // parse exception throws to catch
+                move = view.readMove();
                 if (move == null) break;
                 validator.validate(move);
                 board.makeMove(move);
