@@ -33,8 +33,7 @@ public class ConsoleIO implements View {
     @Override
     public Piece.Type getPawnPromotion() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        boolean validInput = false;
-        do {
+        while (true) {
             System.out.println("What would you like to promote your pawn to? ");
             System.out.print(">");
             try {
@@ -54,14 +53,12 @@ public class ConsoleIO implements View {
                     case "R":
                         return Piece.Type.ROOK;
                     default:
-                        System.out.println("Please specifiy (Q)ueen, (K)night, (B)ishop, or (R)ook");
+                        System.out.println("Please specify (Q)ueen, (K)night, (B)ishop, or (R)ook");
                         break;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        } while(!validInput);
-        return null;
+        }
     }
 }
